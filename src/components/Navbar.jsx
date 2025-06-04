@@ -8,11 +8,11 @@ const Navbar = () => {
 
     const links = <>
 
-        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/'>Home</NavLink>
-        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/addFoods'>Available Foods</NavLink>
-        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/availableFoods'>Add Food</NavLink>
-        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/manageMyFoods'>Manage My Foods</NavLink>
-        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/myFoodRequest'>My Food Request</NavLink>
+        <NavLink className='transition py-2 px-4 rounded-lg font-semibold' to='/'>Home</NavLink>
+        <NavLink className='transition py-2 px-4 rounded-lg font-semibold' to='/addFoods'>Available Foods</NavLink>
+        <NavLink className='transition py-2 px-4 rounded-lg font-semibold' to='/availableFoods'>Add Food</NavLink>
+        <NavLink className='transition py-2 px-4 rounded-lg font-semibold' to='/manageMyFoods'>Manage My Foods</NavLink>
+        <NavLink className='transition py-2 px-4 rounded-lg font-semibold' to='/myFoodRequest'>My Food Request</NavLink>
 
     </>
 

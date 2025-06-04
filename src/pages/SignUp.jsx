@@ -2,17 +2,32 @@
 import { Link, NavLink } from 'react-router-dom';
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { FaBowlFood } from 'react-icons/fa6';
+import { use } from 'react';
+import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
 const SignUp = () => {
 
+    const { createUser, SetLoading } = use(AuthContext)
 
+    const handleSignUp = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email, password);
 
+        createUser(email, password)
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
 
 
     return (
         <div>
-
-
 
             <div className="hero bg-base-200 pb-20 pt-15 px-4">
                 <div className="hero-content w-full max-w-2xl">
@@ -24,7 +39,7 @@ const SignUp = () => {
                             <h1 className="text-2xl font-bold text-center mb-5">Sign Up Your Account</h1>
                             <hr className="mb-8" />
 
-                            <form onSubmit=''>
+                            <form onSubmit={handleSignUp}>
                                 <label className="label text-lg">Name</label>
                                 <input type="text" name="name" className="input input-bordered w-full" placeholder="Name" required />
                                 {/* {nameError && <p className="text-xs text-error">{nameError}</p>} */}

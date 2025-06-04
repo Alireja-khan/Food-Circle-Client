@@ -1,10 +1,29 @@
 
+import { use } from 'react';
 import { FaBowlFood } from 'react-icons/fa6';
 import { GoHome, GoHomeFill } from 'react-icons/go';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
 const SignIn = () => {
 
+    const { signInUser } = use(AuthContext);
+
+    const handleSignIn = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email, password);
+
+        signInUser(email, password)
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     return (
 
@@ -18,7 +37,7 @@ const SignIn = () => {
                     </NavLink>
 
                     <h1 className="text-2xl font-bold text-center mb-6">Sign in to Your Account</h1>
-                    <form onSubmit='' className="space-y-4">
+                    <form onSubmit={handleSignIn} className="space-y-4">
                         <div>
                             <label className="label text-sm font-semibold">Email</label>
                             <input type="email" name="email" required className="input input-bordered w-full" placeholder="Enter your email" />
@@ -38,7 +57,7 @@ const SignIn = () => {
 
                     <button
                         type="button"
-                        onClick=''
+                        // onClick=''
                         className="btn bg-white text-black border border-gray-300 w-full flex items-center justify-center"
                     >
                         <img src="https://img.icons8.com/color/16/google-logo.png" alt="Google" className="mr-2" />
