@@ -2,12 +2,13 @@
 import { use } from 'react';
 import { FaBowlFood } from 'react-icons/fa6';
 import { GoHome, GoHomeFill } from 'react-icons/go';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
 const SignIn = () => {
 
     const { signInUser } = use(AuthContext);
+    const navigate = useNavigate()
 
     const handleSignIn = e => {
         e.preventDefault();
@@ -19,6 +20,7 @@ const SignIn = () => {
         signInUser(email, password)
             .then(result => {
                 console.log(result);
+                navigate('/')
             })
             .catch(error => {
                 console.log(error);

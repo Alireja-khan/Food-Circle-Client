@@ -1,5 +1,5 @@
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { FaBowlFood } from 'react-icons/fa6';
 import { use } from 'react';
@@ -8,6 +8,7 @@ import { AuthContext } from '../contexts/AuthContext/AuthContext';
 const SignUp = () => {
 
     const { createUser, SetLoading } = use(AuthContext)
+    const navigate = useNavigate()
 
     const handleSignUp = e => {
         e.preventDefault();
@@ -19,6 +20,7 @@ const SignUp = () => {
         createUser(email, password)
         .then(result => {
             console.log(result);
+            navigate('/')
         })
         .catch(error => {
             console.log(error);

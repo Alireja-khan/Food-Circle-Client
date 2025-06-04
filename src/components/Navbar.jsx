@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { use } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBowlFood } from "react-icons/fa6";
+import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
 
 const Navbar = () => {
 
+    const { user, signOutUser } = use(AuthContext)
+
+
+    const handleSignOut = () => {
+        signOutUser()
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
 
     const links = <>
 
@@ -31,8 +44,15 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <NavLink className='btn ' to='/signIn'>Sign In</NavLink>
-                <NavLink className='btn ml-3' to='/signUp'>Sign Up</NavLink>
+                {
+                    user ? <button onClick={handleSignOut} className='btn'>Sign Out</button> :
+                        <>
+
+                            <NavLink className='btn ' to='/signIn'>Sign In</NavLink>
+                            <NavLink className='btn ml-3' to='/signUp'>Sign Up</NavLink>
+
+                        </>
+                }
             </div>
         </div>
     );
