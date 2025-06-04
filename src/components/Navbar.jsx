@@ -1,0 +1,41 @@
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { FaBowlFood } from "react-icons/fa6";
+
+
+const Navbar = () => {
+
+
+    const links = <>
+
+        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/'>Home</NavLink>
+        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/addFoods'>Available Foods</NavLink>
+        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/availableFoods'>Add Food</NavLink>
+        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/manageMyFoods'>Manage My Foods</NavLink>
+        <NavLink className='transition hover:shadow-lg py-2 px-4 rounded-lg font-semibold' to='/myFoodRequest'>My Food Request</NavLink>
+
+    </>
+
+
+    return (
+        <div className="navbar bg-base-100 shadow-sm px-10">
+            <div className="navbar-start">
+                <div className="flex items-center space-x-2 text-xl font-bold ">
+                    <FaBowlFood className='w-8 h-8' />
+                    <span>FoodCircle</span>
+                </div>
+            </div>
+            <div className="navbar-center hidden lg:flex">
+                <ul className="menu menu-horizontal px-1">
+                    {links}
+                </ul>
+            </div>
+            <div className="navbar-end">
+                <NavLink className='btn ' to='/signIn'>Sign In</NavLink>
+                <NavLink className='btn ml-3' to='/signUp'>Sign Up</NavLink>
+            </div>
+        </div>
+    );
+};
+
+export default Navbar;
