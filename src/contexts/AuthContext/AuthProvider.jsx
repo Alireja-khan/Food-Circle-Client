@@ -3,6 +3,7 @@ import { AuthContext } from './AuthContext';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../../services/firebase.init';
 
+
 const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(false);

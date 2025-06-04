@@ -4,6 +4,8 @@ import { GoHome, GoHomeFill } from "react-icons/go";
 import { FaBowlFood } from 'react-icons/fa6';
 import { use } from 'react';
 import { AuthContext } from '../contexts/AuthContext/AuthContext';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../services/firebase.init';
 
 const SignUp = () => {
 
@@ -25,7 +27,22 @@ const SignUp = () => {
         .catch(error => {
             console.log(error);
         })
-    }
+    };
+
+
+
+
+    const handleGoogleSignUp = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+        .then(result => {
+            console.log(result);
+            navigate('/')
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    };
 
 
     return (
@@ -61,7 +78,7 @@ const SignUp = () => {
 
                             <div className="divider">OR</div>
 
-                            <button onClick='' className="btn bg-white text-black border-[#e5e5e5] mb-4 w-full">
+                            <button onClick={handleGoogleSignUp} className="btn bg-white text-black border-[#e5e5e5] mb-4 w-full">
                                 <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="mr-2">
                                     <g>
                                         <path d="m0 0H512V512H0" fill="#fff" />

@@ -4,11 +4,29 @@ import { FaBowlFood } from 'react-icons/fa6';
 import { GoHome, GoHomeFill } from 'react-icons/go';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext/AuthContext';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../services/firebase.init';
 
 const SignIn = () => {
 
+
+    const provider = new GoogleAuthProvider();
     const { signInUser } = use(AuthContext);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+
+
+    const handleGoogleSignIn = () => {
+        signInWithPopup(auth, provider)
+        .then(result => {
+            console.log(result);
+            navigate('/')
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
 
     const handleSignIn = e => {
         e.preventDefault();
@@ -59,7 +77,7 @@ const SignIn = () => {
 
                     <button
                         type="button"
-                        // onClick=''
+                        onClick={handleGoogleSignIn}
                         className="btn bg-white text-black border border-gray-300 w-full flex items-center justify-center"
                     >
                         <img src="https://img.icons8.com/color/16/google-logo.png" alt="Google" className="mr-2" />
