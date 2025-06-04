@@ -19,22 +19,22 @@ const router = createBrowserRouter([
         index: true,
         Component: Home
       },
-      // {
-      //   path: 'addFoods',
-      //   Component: AddFoods
-      // },
-      // {
-      //   path: 'availableFoods',
-      //   Component: AvailableFoods
-      // },
-      // {
-      //   path: 'manageMyFoods',
-      //   Component: ManageMyFoods
-      // },
-      // {
-      //   path: 'myFoodRequest',
-      //   Component: MyFoodRequest
-      // },
+      {
+        path: 'addFoods',
+        Component: AddFoods
+      },
+      {
+        path: 'availableFoods',
+        Component: AvailableFoods
+      },
+      {
+        path: 'manageMyFoods',
+        Component: ManageMyFoods
+      },
+      {
+        path: 'myFoodRequest',
+        Component: MyFoodRequest
+      },
     ]
   },
   // {
