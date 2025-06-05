@@ -7,6 +7,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../services/firebase.init';
 import bloomAnimation from '../assets/Lottie-Animations/Animation - 1749080200452.json';
 import Lottie from 'lottie-react';
+import Swal from 'sweetalert2';
 
 const SignIn = () => {
     const provider = new GoogleAuthProvider();
@@ -21,6 +22,12 @@ const SignIn = () => {
             })
             .catch(error => {
                 console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Google Sign-In Failed',
+                    text: 'Something went wrong. Please try again.',
+                    confirmButtonColor: '#d33'
+                });
             });
     };
 
@@ -38,10 +45,17 @@ const SignIn = () => {
             })
             .catch(error => {
                 console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Sign-in Failed',
+                    text: 'Invalid email or password!',
+                    confirmButtonColor: '#d33'
+                });
             });
     };
 
     return (
+
         <div className="bg-base-200 py-50 pb-100 px-4 sm:px-6 lg:px-16 ">
             <div className="flex flex-col lg:flex-row items-center justify-center gap-30">
 
@@ -49,7 +63,7 @@ const SignIn = () => {
 
                 <div className="max-w-2xl w-full mb-30">
                     <NavLink to="/">
-                        <FaBowlFood className="w-8 h-8 hover:text-green-400 mb-5" />
+                        <FaBowlFood className="w-8 h-8 hover:text-[#82a079] mb-5" />
                     </NavLink>
                     <h1 className="text-left text-4xl font-semibold mb-2">Sign in to
 

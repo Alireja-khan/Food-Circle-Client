@@ -34,7 +34,7 @@ const Navbar = () => {
         <div className="navbar bg-base-100 shadow-sm px-10">
             <div className="navbar-start">
                 <div className="flex items-center space-x-2 text-xl font-bold ">
-                    <FaBowlFood className='w-8 h-8' />
+                    <FaBowlFood className='w-8 h-8 hover:text-[#82a079]' />
                     <span>FoodCircle</span>
                 </div>
             </div>
