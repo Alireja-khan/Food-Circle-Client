@@ -1,14 +1,15 @@
-import {
-  createBrowserRouter,
-} from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
-import Home from "../pages/Home";
-import AddFoods from "../pages/AddFoods";
-import AvailableFoods from "../pages/AvailableFoods";
-import ManageMyFoods from "../pages/ManageMyFoods";
-import MyFoodRequest from "../pages/MyFoodRequest";
-import SignIn from "../pages/SignIn";
-import SignUp from "../pages/SignUp";
+import Home from "../pages/Home/Home";
+// import AddFoods from "../pages/AddFood/AddFoods";
+// import AvailableFoods from "../pages/AvailableFood/AvailableFoods";
+// import ManageMyFoods from "../pages/ManageFood/ManageMyFoods";
+// import MyRequestFoods from "../pages/RequestFood/MyRequestFoods";
+import SignIn from "../pages/Auth/SignIn";
+import SignUp from "../pages/Auth/SignUp";
+// import FoodDetails from "../pages/AvailableFood/FoodDetails";
+// import PrivateRoute from "./PrivateRoute";
+// import MyProfile from "../pages/Profiles/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -19,22 +20,40 @@ const router = createBrowserRouter([
         index: true,
         Component: Home
       },
-      {
-        path: 'addFoods',
-        Component: AddFoods
-      },
-      {
-        path: 'availableFoods',
-        Component: AvailableFoods
-      },
-      {
-        path: 'manageMyFoods',
-        Component: ManageMyFoods
-      },
-      {
-        path: 'myFoodRequest',
-        Component: MyFoodRequest
-      },
+      // {
+      //   path: 'addFoods',
+      //   element: <PrivateRoute>
+      //     <AddFoods></AddFoods>
+      //   </PrivateRoute>
+      // },
+      // {
+      //   path: 'availableFoods',
+      //   Component: AvailableFoods
+      // },
+      // {
+      //   path: '/foods/:id',
+      //   Component: FoodDetails,
+      //   loader: ({ params }) => fetch(`http://localhost:3000/foods/${params.id}`)
+      // },
+      // {
+      //   path: 'manageMyFoods',
+      //   element: <PrivateRoute>
+      //     <ManageMyFoods></ManageMyFoods>
+      //   </PrivateRoute>
+      // },
+      // {
+      //   path: 'myRequestFoods',
+      //   element: <PrivateRoute>
+      //     <MyRequestFoods></MyRequestFoods>
+      //   </PrivateRoute>
+      // },
+      // {
+      //   path: 'myProfile',
+      //   element: <PrivateRoute>
+      //     <MyProfile></MyProfile>
+      //   </PrivateRoute>
+      // },
+
     ]
   },
   {

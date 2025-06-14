@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaBowlFood } from 'react-icons/fa6';
-
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { GiFruitBowl } from 'react-icons/gi';
 const Footer = () => {
     return (
         <footer className="bg-gray-900 text-gray-300 py-8 mt-12">
@@ -8,8 +10,16 @@ const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center md:items-start space-y-6 md:space-y-0">
                     {/* About Section */}
                     <div className="md:w-1/3">
-                        <div className="flex items-center space-x-2 text-xl font-bold ">
-                            <FaBowlFood className='w-8 h-8' />
+                        <div className="flex items-center space-x-4 text-xl font-bold ">
+
+                            <motion.button
+                                whileHover={{ scale: 1.55 }}
+                                whileTap={{ scale: 1.10 }}
+                                onHoverStart={() => console.log('hover started!')}
+                            >
+                                <Link to='/'><GiFruitBowl className='w-10 h-10' /></Link>
+                            </motion.button>
+
                             <span>FoodCircle</span>
                         </div>
                         <p className="text-gray-400 mt-2">
@@ -22,10 +32,10 @@ const Footer = () => {
                         <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
                         <ul>
                             <li><a href="/" className="hover:text-white transition">Home</a></li>
-                            <li><a href="/available-foods" className="hover:text-white transition">Available Foods</a></li>
-                            <li><a href="/add-food" className="hover:text-white transition">Add Food</a></li>
-                            <li><a href="/manage-foods" className="hover:text-white transition">Manage My Foods</a></li>
-                            <li><a href="/my-requests" className="hover:text-white transition">My Food Requests</a></li>
+                            <li><a href="/availableFoods" className="hover:text-white transition">Available Foods</a></li>
+                            <li><a href="/addFoods" className="hover:text-white transition">Add Food</a></li>
+                            <li><a href="/manageMyFoods" className="hover:text-white transition">Manage My Foods</a></li>
+                            <li><a href="/myRequestFoods" className="hover:text-white transition">My Food Requests</a></li>
                         </ul>
                     </div>
 
