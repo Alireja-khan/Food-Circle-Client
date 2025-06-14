@@ -3,7 +3,7 @@ import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home/Home";
 import AddFoods from "../pages/AddFood/AddFoods";
 import AvailableFoods from "../pages/AvailableFood/AvailableFoods";
-// import ManageMyFoods from "../pages/ManageFood/ManageMyFoods";
+import ManageMyFoods from "../pages/ManageFood/ManageMyFoods";
 // import MyRequestFoods from "../pages/RequestFood/MyRequestFoods";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
@@ -35,12 +35,12 @@ const router = createBrowserRouter([
         Component: FoodDetails,
         loader: ({ params }) => fetch(`http://localhost:3000/foods/${params.id}`)
       },
-      // {
-      //   path: 'manageMyFoods',
-      //   element: <PrivateRoute>
-      //     <ManageMyFoods></ManageMyFoods>
-      //   </PrivateRoute>
-      // },
+      {
+        path: 'manageMyFoods',
+        element: <PrivateRoute>
+          <ManageMyFoods></ManageMyFoods>
+        </PrivateRoute>
+      },
       // {
       //   path: 'myRequestFoods',
       //   element: <PrivateRoute>
