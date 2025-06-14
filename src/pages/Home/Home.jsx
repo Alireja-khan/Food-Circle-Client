@@ -24,7 +24,7 @@ const Home = () => {
             <Banner />
             <QuoteSection />
             <FeaturedFoods />
-            {/* <WhyChoose /> */}
+            <WhyChoose />
             {/* <Achievements></Achievements> */}
             {/* <BecomeMember></BecomeMember> */}
         </div>
