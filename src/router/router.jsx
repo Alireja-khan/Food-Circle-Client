@@ -9,7 +9,7 @@ import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
 import FoodDetails from "../pages/AvailableFood/FoodDetails";
 import PrivateRoute from "./PrivateRoute";
-// import MyProfile from "../pages/Profiles/MyProfile";
+import MyProfile from "../pages/Profiles/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -47,12 +47,12 @@ const router = createBrowserRouter([
           <MyRequestFoods></MyRequestFoods>
         </PrivateRoute>
       },
-      // {
-      //   path: 'myProfile',
-      //   element: <PrivateRoute>
-      //     <MyProfile></MyProfile>
-      //   </PrivateRoute>
-      // },
+      {
+        path: 'myProfile',
+        element: <PrivateRoute>
+          <MyProfile></MyProfile>
+        </PrivateRoute>
+      },
 
     ]
   },
