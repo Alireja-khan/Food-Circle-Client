@@ -34,11 +34,11 @@ const Modal = ({ setShowModal, food }) => {
             status: "requested",
         };
 
-        axios.post('http://localhost:3000/requests', requestData)
+        axios.post('https://food-circle-server-five.vercel.app/requests', requestData)
             .then(res => {
                 if (res.data.insertedId) {
                     // Update status to "requested"
-                    axios.patch(`http://localhost:3000/foods/${food._id}/status`, { status: "requested" })
+                    axios.patch(`https://food-circle-server-five.vercel.app/foods/${food._id}/status`, { status: "requested" })
                         .then(() => {
                             Swal.fire({
                                 icon: "success",

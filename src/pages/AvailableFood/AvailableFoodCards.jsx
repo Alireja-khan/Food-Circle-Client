@@ -6,38 +6,43 @@ import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { FaCalendarAlt } from 'react-icons/fa';
 import { IoFastFood } from "react-icons/io5";
 
+
 const AvailableFoodCards = ({ foods }) => {
 
     const [sortOption, setSortOption] = useState('');
     const [sortedFoods, setSortedFoods] = useState([]);
     const location = useLocation();
     const searchResults = location.state?.searchResults || [];
+    const [isThreeColumn, setIsThreeColumn] = useState(true);
+
+    
+
 
     useEffect(() => {
-    if (!Array.isArray(foods)) return;
-    
-    let baseFoods = searchResults.length > 0 ? searchResults : foods;
-    let sorted = [...baseFoods];
+        if (!Array.isArray(foods)) return;
 
-    switch (sortOption) {
-        case 'quantityHigh':
-            sorted.sort((a, b) => b.quantity - a.quantity);
-            break;
-        case 'quantityLow':
-            sorted.sort((a, b) => a.quantity - b.quantity);
-            break;
-        case 'expirySoon':
-            sorted.sort((a, b) => new Date(a.expireDate) - new Date(b.expireDate));
-            break;
-        case 'expiryLate':
-            sorted.sort((a, b) => new Date(b.expireDate) - new Date(a.expireDate));
-            break;
-        default:
-            break;
-    }
+        let baseFoods = searchResults.length > 0 ? searchResults : foods;
+        let sorted = [...baseFoods];
 
-    setSortedFoods(sorted);
-}, [sortOption, foods?.length, searchResults?.length]);  // more stable dependency
+        switch (sortOption) {
+            case 'quantityHigh':
+                sorted.sort((a, b) => b.quantity - a.quantity);
+                break;
+            case 'quantityLow':
+                sorted.sort((a, b) => a.quantity - b.quantity);
+                break;
+            case 'expirySoon':
+                sorted.sort((a, b) => new Date(a.expireDate) - new Date(b.expireDate));
+                break;
+            case 'expiryLate':
+                sorted.sort((a, b) => new Date(b.expireDate) - new Date(a.expireDate));
+                break;
+            default:
+                break;
+        }
+
+        setSortedFoods(sorted);
+    }, [sortOption, foods?.length, searchResults?.length]); 
 
 
     console.log(foods)
@@ -76,7 +81,16 @@ const AvailableFoodCards = ({ foods }) => {
 
             <p className="text-center text-gray-500 mb-10">Explore the top shared foods with highest quantity</p>
 
-            <div className="flex justify-end mb-6">
+            <div className="flex justify-between items-center mb-6">
+                <motion.button
+                    onClick={() => setIsThreeColumn(prev => !prev)}
+                    className="ml-4 px-4 py-2 border rounded-lg hover:bg-[#bee8b1] transition"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    Change Layout
+                </motion.button>
+
                 <select
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
@@ -88,10 +102,13 @@ const AvailableFoodCards = ({ foods }) => {
                     <option value="expirySoon">Expiry Soon</option>
                     <option value="expiryLate">Expiry Late</option>
                 </select>
+
+
             </div>
 
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div className={`grid grid-cols-1 sm:grid-cols-2 ${isThreeColumn ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-8`}>
                 {sortedFoods.map((food) => (
                     <div
                         key={food._id}
@@ -104,7 +121,8 @@ const AvailableFoodCards = ({ foods }) => {
                                 <img
                                     src={food.foodImage}
                                     alt={food.foodName}
-                                    className="w-full h-48 object-cover"
+                                    className={`w-full object-cover transition-all duration-300 ${isThreeColumn ? 'h-48' : 'h-72'}`}
+
                                 />
                             )}
 

@@ -12,7 +12,7 @@ const Banner = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:3000/foods/available')
+        fetch('https://food-circle-server-five.vercel.app/foods/available')
             .then(res => res.json())
             .then(data => setFoods(data));
     }, []);

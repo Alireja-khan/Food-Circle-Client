@@ -46,7 +46,7 @@ const FoodDetails = () => {
             <img
                 src={food.foodImage}
                 alt={food.foodName}
-                className="w-full max-w-2xl mx-auto max-h-96 object-contain bg-gray-100 rounded-lg mb-6"
+                className=" max-w-2xl mx-auto max-h-96 object-contain bg-gray-100 rounded-lg mb-6"
             />
 
             {/* Title */}

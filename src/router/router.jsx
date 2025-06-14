@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: '/foods/:id',
         Component: FoodDetails,
-        loader: ({ params }) => fetch(`http://localhost:3000/foods/${params.id}`)
+        loader: ({ params }) => fetch(`https://food-circle-server-five.vercel.app/foods/${params.id}`)
       },
       {
         path: 'manageMyFoods',
