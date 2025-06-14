@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home/Home";
-// import AddFoods from "../pages/AddFood/AddFoods";
+import AddFoods from "../pages/AddFood/AddFoods";
 import AvailableFoods from "../pages/AvailableFood/AvailableFoods";
 // import ManageMyFoods from "../pages/ManageFood/ManageMyFoods";
 // import MyRequestFoods from "../pages/RequestFood/MyRequestFoods";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
 import FoodDetails from "../pages/AvailableFood/FoodDetails";
-// import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 // import MyProfile from "../pages/Profiles/MyProfile";
 
 const router = createBrowserRouter([
@@ -20,12 +20,12 @@ const router = createBrowserRouter([
         index: true,
         Component: Home
       },
-      // {
-      //   path: 'addFoods',
-      //   element: <PrivateRoute>
-      //     <AddFoods></AddFoods>
-      //   </PrivateRoute>
-      // },
+      {
+        path: 'addFoods',
+        element: <PrivateRoute>
+          <AddFoods></AddFoods>
+        </PrivateRoute>
+      },
       {
         path: 'availableFoods',
         Component: AvailableFoods

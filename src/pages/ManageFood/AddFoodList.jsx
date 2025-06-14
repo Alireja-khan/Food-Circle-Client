@@ -1,5 +1,4 @@
 import React, { use, useState } from 'react';
-import { Pencil, Trash2 } from "lucide-react";
 import Modal from '../ManageFood/ManageFoodModal';
 import axios from 'axios';
 import Swal from 'sweetalert2';
