@@ -4,7 +4,7 @@ import Home from "../pages/Home/Home";
 import AddFoods from "../pages/AddFood/AddFoods";
 import AvailableFoods from "../pages/AvailableFood/AvailableFoods";
 import ManageMyFoods from "../pages/ManageFood/ManageMyFoods";
-// import MyRequestFoods from "../pages/RequestFood/MyRequestFoods";
+import MyRequestFoods from "../pages/RequestFood/MyRequestFoods";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
 import FoodDetails from "../pages/AvailableFood/FoodDetails";
@@ -41,12 +41,12 @@ const router = createBrowserRouter([
           <ManageMyFoods></ManageMyFoods>
         </PrivateRoute>
       },
-      // {
-      //   path: 'myRequestFoods',
-      //   element: <PrivateRoute>
-      //     <MyRequestFoods></MyRequestFoods>
-      //   </PrivateRoute>
-      // },
+      {
+        path: 'myRequestFoods',
+        element: <PrivateRoute>
+          <MyRequestFoods></MyRequestFoods>
+        </PrivateRoute>
+      },
       // {
       //   path: 'myProfile',
       //   element: <PrivateRoute>
