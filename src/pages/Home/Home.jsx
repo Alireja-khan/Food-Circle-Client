@@ -23,7 +23,7 @@ const Home = () => {
         <div className='bg-green-50 '>
             <Banner />
             <QuoteSection />
-            {/* <FeaturedFoods /> */}
+            <FeaturedFoods />
             {/* <WhyChoose /> */}
             {/* <Achievements></Achievements> */}
             {/* <BecomeMember></BecomeMember> */}
