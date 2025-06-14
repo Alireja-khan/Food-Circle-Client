@@ -26,7 +26,7 @@ const Home = () => {
             <FeaturedFoods />
             <WhyChoose />
             <Achievements></Achievements>
-            {/* <BecomeMember></BecomeMember> */}
+            <BecomeMember></BecomeMember>
         </div>
     );
 };
