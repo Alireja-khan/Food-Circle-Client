@@ -25,7 +25,7 @@ const Home = () => {
             <QuoteSection />
             <FeaturedFoods />
             <WhyChoose />
-            {/* <Achievements></Achievements> */}
+            <Achievements></Achievements>
             {/* <BecomeMember></BecomeMember> */}
         </div>
     );

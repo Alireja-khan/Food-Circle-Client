@@ -16,8 +16,8 @@ const WhyChoose = () => {
 
                 {/* Content */}
                 <div className="p-4 sm:p-8 rounded-2xl max-w-2xl mx-auto">
-                    <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-10 leading-tight tracking-tight">
-                        Why Choose
+                    <h2 className="text-3xl flex items-center sm:text-4xl font-extrabold text-center mb-10 leading-tight tracking-tight">
+                        <span>Why Choose</span>
                         <span className="relative group ml-3 rounded px-4 sm:px-5 py-2 font-semibold text-black overflow-hidden text-3xl sm:text-4xl inline-block">
                             <motion.span
                                 className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
