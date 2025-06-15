@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FaBowlRice, FaLocationDot } from 'react-icons/fa6';
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { FaCalendarAlt } from 'react-icons/fa';
@@ -14,8 +14,10 @@ const AvailableFoodCards = ({ foods }) => {
     const location = useLocation();
     const searchResults = location.state?.searchResults || [];
     const [isThreeColumn, setIsThreeColumn] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedDonor, setSelectedDonor] = useState(null);
 
-    
+
 
 
     useEffect(() => {
@@ -42,7 +44,7 @@ const AvailableFoodCards = ({ foods }) => {
         }
 
         setSortedFoods(sorted);
-    }, [sortOption, foods?.length, searchResults?.length]); 
+    }, [sortOption, foods?.length, searchResults?.length]);
 
 
     console.log(foods)
@@ -144,13 +146,30 @@ const AvailableFoodCards = ({ foods }) => {
                                     <p className="text-lg text-gray-600 mb-1">Quantity: {food.quantity}</p>
                                 </div>
 
-                                <div className="flex items-center gap-3 mt-auto">
-                                    <img src={food.donorImage} alt={food.donorName} className="w-10 h-15 rounded object-cover border-2 border-gray-300" />
+
+
+                                <div
+                                    onClick={() => {
+                                        setSelectedDonor(food);
+                                        setShowModal(true)
+                                    }}
+                                    className="flex items-center gap-3 mt-auto">
+
+                                    <motion.div
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <img src={food.donorImage} alt={food.donorName} className="w-10 h-15 rounded object-cover border-2 border-gray-300" />
+                                    </motion.div>
+
                                     <div>
                                         <p className="text-base text-gray-600">Donor Name : {food.donorName}</p>
                                         <p className="text-base text-gray-600">Donor Email : {food.userEmail}</p>
                                     </div>
                                 </div>
+
+
+
 
                                 <Link to={`/foods/${food._id}`}>
 
@@ -164,6 +183,70 @@ const AvailableFoodCards = ({ foods }) => {
                                     </motion.button>
 
                                 </Link>
+
+
+
+                                <AnimatePresence>
+                                    {showModal && selectedDonor && (
+                                        <motion.div
+                                            className="fixed inset-0 bg-black/10 flex items-center justify-center z-50"
+                                            onClick={() => {
+                                                setShowModal(false);
+                                                setSelectedDonor(null);
+                                            }}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                        >
+                                            <motion.div
+                                                layoutId="profile-photo"
+                                                className="w-80 bg-white rounded-b-2xl overflow-hidden"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                {/* Donor Image */}
+                                                <div className="w-full h-110 overflow-hidden">
+                                                    <motion.img
+                                                        src={selectedDonor.donorImage}
+                                                        alt="Expanded Donor"
+                                                        className="object-cover w-full h-full"
+                                                    />
+                                                </div>
+
+                                                {/* Donor Info */}
+                                                <div className="p-5 text-center space-y-2">
+                                                    <p className="text-xl font-semibold text-gray-800">{selectedDonor.donorName}</p>
+                                                    <p className="text-sm text-gray-500">{selectedDonor.userEmail}</p>
+                                                </div>
+
+                                                <div className="border-t-gray-900">
+
+                                                    <Link to={`/foods/${selectedDonor._id}`} state={{ from: 'profile' }}>
+
+                                                        <motion.button
+                                                            className="btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto"
+                                                            whileHover={{ scale: 1.05 }}
+                                                            whileTap={{ scale: 0.95 }}
+                                                        >
+                                                            Show Profile
+                                                        </motion.button>
+
+                                                    </Link>
+
+                                                </div>
+                                            </motion.div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+
+
+
+
+
+
+
+
+
                             </div>
 
                         </div>

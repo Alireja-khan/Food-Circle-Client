@@ -10,6 +10,8 @@ import SignUp from "../pages/Auth/SignUp";
 import FoodDetails from "../pages/AvailableFood/FoodDetails";
 import PrivateRoute from "./PrivateRoute";
 import MyProfile from "../pages/Profiles/MyProfile";
+import DonorProfile from "../pages/Profiles/DonorProfile";
+// import DonorProfile from "../pages/Profiles/DonorProfile";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,13 @@ const router = createBrowserRouter([
         Component: FoodDetails,
         loader: ({ params }) => fetch(`https://food-circle-server-five.vercel.app/foods/${params.id}`)
       },
+
+      {
+        path: 'donorProfile',
+        element: <DonorProfile />
+      },
+
+
       {
         path: 'manageMyFoods',
         element: <PrivateRoute>
