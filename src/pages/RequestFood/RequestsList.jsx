@@ -1,11 +1,12 @@
-import React, { use } from 'react';
-import { motion } from 'framer-motion';
+import React, { use, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { IoFastFood } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
-const RequestsList = ({ myRequestFoodsPromise }) => {
-  const requests = use(myRequestFoodsPromise);
-  console.log(requests);
+const RequestsList = ({ requests, foods }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDonor, setSelectedDonor] = useState(null);
+  console.log(requests, foods);
 
   return (
 
@@ -42,6 +43,8 @@ const RequestsList = ({ myRequestFoodsPromise }) => {
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
+
+
         {requests.map((request) => {
           const { _id, donorName, foodName, pickupLocation, expireDate, requestDate, notes, donorImage, foodImage, quantity, status, donorEmail, userEmail } = request;
 
@@ -77,34 +80,109 @@ const RequestsList = ({ myRequestFoodsPromise }) => {
                   <p><span className="font-medium">Request Date:</span> {new Date(requestDate).toLocaleDateString()}</p>
                 </div>
 
-                {/* Donor Info */}
-                <div className="flex items-center my-4">
-                  {donorImage && (
-                    <img
-                      src={donorImage}
-                      alt={donorName}
-                      className="w-12 h-15 rounded object-cover mr-3"
-                    />
-                  )}
-                  <div>
-                    <p className="text-sm text-gray-700"><span className="font-medium">Donor:</span> {donorName}</p>
-                    <p className="text-sm text-gray-500"><span className="font-medium">Donor Email:</span> {donorEmail}</p>
 
-                  </div>
-                </div>
+                {
+                  foods
+                    .filter(food => food.donorEmail === donorEmail)
+                    .map((food) => (
+                      <div key={food._id}>
+
+                        <div
+                          onClick={() => {
+                            setSelectedDonor(food);
+                            setShowModal(true);
+                          }}
+                          className="flex items-center gap-3 mt-auto"
+                        >
+                          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <img src={food.donorImage} alt={food.donorName} className="w-10 h-15 rounded object-cover border-2 border-gray-300" />
+                          </motion.div>
+
+                          <div>
+                            <p className="text-base text-gray-600">Donor Name : {food.donorName}</p>
+                            <p className="text-base text-gray-600">Donor Email : {food.donorEmail}</p>
+                            <p className="text-base text-gray-600">Donor Email : {food.userEmail}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                }
+
 
                 {notes && (
                   <div className="mt-4 bg-gray-100 p-3 rounded text-sm text-gray-600 italic">
                     "{notes}"
                   </div>
                 )}
+
+
+                <AnimatePresence>
+                  {showModal && selectedDonor && (
+                    <motion.div
+                      className="fixed inset-0 bg-black/10 flex items-center justify-center z-50"
+                      onClick={() => {
+                        setShowModal(false);
+                        setSelectedDonor(null);
+                      }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <motion.div
+                        layoutId="profile-photo"
+                        className="w-80 bg-white rounded-b-2xl overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {/* Donor Image */}
+                        <div className="w-full h-110 overflow-hidden">
+                          <motion.img
+                            src={donorImage}
+                            alt="Expanded Donor"
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+
+                        {/* Donor Info */}
+                        <div className="p-5 text-center space-y-2">
+                          <p className="text-xl font-semibold text-gray-800">{donorName}</p>
+                          <p className="text-sm text-gray-500">{donorEmail}</p>
+                        </div>
+
+                        <div className="border-t-gray-900">
+
+
+                          <Link to={`/foods/${selectedDonor._id}`} state={{ from: 'profile', back: location.pathname }}>
+
+                            <motion.button
+                              className="btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              Show Profile
+                            </motion.button>
+
+                          </Link>
+
+
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+
+
+
+
+
+
               </div>
             </div>
           );
         })}
       </div>
     </div>
-    
+
   );
 };
 

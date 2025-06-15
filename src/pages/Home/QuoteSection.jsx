@@ -5,6 +5,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { FaQuoteLeft } from 'react-icons/fa6';
 import { GiClover } from "react-icons/gi";
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const QuoteSection = () => {
     const [quotes, setQuotes] = useState([]);
@@ -35,12 +37,42 @@ const QuoteSection = () => {
     return (
         <section className=" py-20 px-4">
             <div className="max-w-screen-2xl mx-auto text-center">
-                <div className='flex justify-center items-center gap-5'>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-                        Share the love
-                    </h2>
-                    <GiClover className='w-10 h-10 text-[#a9d39d]' />
+                <div className='flex justify-center items-center gap-5 mb-6'>
+
+                    <motion.button
+                        whileHover={{ scale: 1.25 }}
+                        whileTap={{ scale: 0.95 }}
+                        onHoverStart={() => console.log('hover started!')}
+                    >
+                        <Link to='/addFoods'>
+                            <GiClover className="w-11 h-11 text-lime-500" />
+                        </Link>
+                    </motion.button>
+
+                    <span className="relative group rounded px-5 py-2 font-semibold text-black overflow-hidden text-3xl">
+                        <motion.span
+                            className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
+                            initial={{ height: '100%' }}
+                            animate={{ height: ['100%', '70%', '100%'] }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                repeatType: 'mirror',
+                                ease: 'easeInOut',
+                            }}
+                        ></motion.span>
+                        <span className="relative z-10">Share the love</span>
+                    </span>
+
+
+
                 </div>
+
+
+
+
+
+
                 <p className="text-gray-600 mb-10 text-sm md:text-base">
                     See what people have to say about sharing food and kindness.
                 </p>
@@ -59,7 +91,7 @@ const QuoteSection = () => {
                                 <div className="w-full md:w-4/5 mx-auto flex flex-col-reverse md:flex-row justify-between items-center md:items-center py-10 md:py-20 text-left relative z-10 gap-6">
                                     <div className="w-full hover:shadow-xl md:w-2/3 border border-gray-400 rounded-xl px-4 py-8 md:px-6 md:py-20 relative bg-white">
                                         <span className="absolute -top-4 left-4 text-4xl md:text-5xl text-gray-300 font-serif">
-                                            <FaQuoteLeft />
+                                            <FaQuoteLeft className='text-lime-500'/>
                                         </span>
                                         <p className="text-base md:text-xl text-gray-800 font-medium leading-relaxed">
                                             {item.quote}

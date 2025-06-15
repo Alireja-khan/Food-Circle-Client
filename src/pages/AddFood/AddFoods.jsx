@@ -238,15 +238,19 @@ const AddFoods = () => {
 
                                 <div className='border-t-gray-900'>
 
-                                    <motion.button
-                                        className='btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto'
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onHoverStart={() => console.log('hover started!')}
-                                    >
-                                        Show Profile
+                                    <Link to='/myProfile'>
 
-                                    </motion.button>
+                                        <motion.button
+                                            className='btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto'
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            onHoverStart={() => console.log('hover started!')}
+                                        >
+                                            Show Profile
+
+                                        </motion.button>
+
+                                    </Link>
 
                                 </div>
 

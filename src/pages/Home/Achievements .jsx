@@ -18,7 +18,24 @@ const Achievements = () => {
                 >
                     <Link to=''><GiAchievement className='w-12 h-12 mx-auto' /></Link>
                 </motion.button>
-                <p className='text-3xl sm:text-4xl md:text-5xl font-extrabold'>Our Achievements</p>
+                <p className='text-3xl sm:text-4xl md:text-5xl font-extrabold'>Our </p>
+
+                <span className="relative group rounded px-5 py-2 font-semibold text-black overflow-hidden text-3xl">
+                    <motion.span
+                        className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
+                        initial={{ height: '100%' }}
+                        animate={{ height: ['100%', '70%', '100%'] }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            repeatType: 'mirror',
+                            ease: 'easeInOut',
+                        }}
+                    ></motion.span>
+                    <span className="relative z-10 text-4xl">Achievements</span>
+                </span>
+
+
             </div>
 
             {/* Stats Grid */}

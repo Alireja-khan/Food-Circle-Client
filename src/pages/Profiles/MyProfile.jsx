@@ -90,7 +90,7 @@ const MyProfile = () => {
                         <div className="flex justify-between gap-4 flex-wrap">
                             <div>
                                 {foodsData.map((food) => (
-                                    <Link to={`/foods/${food._id}`} state={{ from: 'profile', back: location.pathname }} key={food._id}>
+                                    <Link to={`/foods/${food._id}`} state={{ from: 'food', back: location.pathname }} key={food._id}>
                                         <p className="hover:font-semibold flex justify-between items-center gap-3">
                                             {food.foodName}
                                             {food.status === 'available' && (
@@ -115,6 +115,7 @@ const MyProfile = () => {
                             </span>
                         </p>
                     </div>
+
                 </div>
             </div>
         </div>

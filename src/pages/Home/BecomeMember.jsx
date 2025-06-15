@@ -10,7 +10,24 @@ const BecomeMember = () => {
             <div className="flex flex-col lg:flex-row justify-around items-center bg-green-50 px-4 sm:px-6 md:px-10 py-12 sm:py-16 lg:py-20 gap-10">
                 <div className="text-center py-10 sm:py-16 lg:py-20 rounded-3xl max-w-xl">
                     <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">Become a Part of</h2>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">FoodCircle Family</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
+
+                        <span className="relative group rounded px-5 py-2 font-semibold mr-3 text-black overflow-hidden text-3xl">
+                            <motion.span
+                                className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
+                                initial={{ height: '100%' }}
+                                animate={{ height: ['100%', '70%', '100%'] }}
+                                transition={{
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    repeatType: 'mirror',
+                                    ease: 'easeInOut',
+                                }}
+                            ></motion.span>
+                            <span className="relative z-10">FoodCircle</span>
+                        </span>
+
+                        Family</h2>
                     <p className="mb-10 text-base sm:text-lg px-4 sm:px-0">
                         Whether you're sharing a meal or receiving one, your place is with us.
                     </p>
@@ -22,7 +39,7 @@ const BecomeMember = () => {
                             whileTap={{ scale: 0.95 }}
                         >
                             <Link to="/addFoods">
-                                <button className="btn flex px-10 py-3 sm:px-15 sm:py-6 bg-green-500 text-white">
+                                <button className="btn flex px-10 py-3 sm:px-15 sm:py-6 bg-lime-500 text-white">
                                     <span>Donate</span> <span>Food</span>
                                 </button>
                             </Link>
@@ -34,7 +51,7 @@ const BecomeMember = () => {
                             whileTap={{ scale: 0.95 }}
                         >
                             <Link to="/signIn">
-                                <button className="btn flex px-10 py-3 sm:px-15 sm:py-6 bg-green-500 text-white">
+                                <button className="btn flex px-10 py-3 sm:px-15 sm:py-6 bg-lime-500 text-white">
                                     <span>Join</span> <span>Us</span>
                                 </button>
                             </Link>
@@ -46,7 +63,7 @@ const BecomeMember = () => {
                             whileTap={{ scale: 0.95 }}
                         >
                             <Link to="/availableFoods">
-                                <button className="btn px-10 flex  py-3 sm:px-15 sm:py-6 bg-green-500 text-white">
+                                <button className="btn px-10 flex  py-3 sm:px-15 sm:py-6 bg-lime-500 text-white">
                                     <span>Request</span> <span>Food</span>
                                 </button>
                             </Link>

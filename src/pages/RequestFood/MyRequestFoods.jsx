@@ -1,23 +1,34 @@
-import React, { Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/UseAuth';
 import RequestsList from './RequestsList';
 import { myRequestFoodsPromise } from '../../services/myRequestFoodsApi';
 
-
 const MyRequestFoods = () => {
-
+    const [foods, setFoods] = useState([]);
+    const [requests, setRequests] = useState([]);
     const { user } = useAuth();
 
+    // Fetch featured foods
+    useEffect(() => {
+        fetch('https://food-circle-server-five.vercel.app/foods/featured')
+            .then(res => res.json())
+            .then(data => setFoods(data));
+    }, []);
+
+    // Fetch requested foods for this user
+    useEffect(() => {
+        if (user?.email) {
+            myRequestFoodsPromise(user.email)
+                .then(data => setRequests(data))
+                .catch(err => console.error(err));
+        }
+    }, [user?.email]);
+
     return (
-        <Suspense fallback={
-            <div className="flex min-h-screen justify-center items-center h-60">
-                <span className="loading loading-bars loading-lg"></span>
-            </div>
-        }>
-            <RequestsList
-                myRequestFoodsPromise={myRequestFoodsPromise(user.email)}
-            ></RequestsList>
-        </Suspense>
+        <RequestsList
+            requests={requests}
+            foods={foods}
+        />
     );
 };
 
