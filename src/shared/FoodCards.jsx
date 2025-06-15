@@ -61,7 +61,7 @@ const FoodCards = ({ foods }) => {
 
               <div className='flex items-center gap-5'>
                 <MdOutlineAccessTimeFilled className='text-red-500' />
-                <p className="text-lg text-gray-600 mb-1">Expires: {new Date(food.expireDate).toLocaleString()}</p>
+                <p className="text-lg text-gray-600 mb-1">Expires: {food.expireDate}</p>
               </div>
 
               <div className='flex items-center gap-5 mb-4'>

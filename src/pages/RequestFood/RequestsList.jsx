@@ -72,7 +72,7 @@ const RequestsList = ({ requests, foods }) => {
 
 
 
-                <div className="space-y-1 text-sm text-gray-700">
+                <div className="space-y-1 text-sm text-gray-700 mb-3">
                   <p className="text-sm text-gray-500"><span className="font-medium">Requested By:</span> {userEmail}</p>
                   <p><span className="font-medium">Quantity:</span> {quantity}</p>
                   <p><span className="font-medium">Pickup Location:</span> {pickupLocation}</p>
@@ -95,13 +95,12 @@ const RequestsList = ({ requests, foods }) => {
                           className="flex items-center gap-3 mt-auto"
                         >
                           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <img src={food.donorImage} alt={food.donorName} className="w-10 h-15 rounded object-cover border-2 border-gray-300" />
+                            <img src={food.donorImage} alt={food.donorName} className="w-10 h-15  rounded object-cover border-2 border-gray-300" />
                           </motion.div>
 
                           <div>
                             <p className="text-base text-gray-600">Donor Name : {food.donorName}</p>
                             <p className="text-base text-gray-600">Donor Email : {food.donorEmail}</p>
-                            <p className="text-base text-gray-600">Donor Email : {food.userEmail}</p>
                           </div>
                         </div>
                       </div>
