@@ -81,31 +81,28 @@ const RequestsList = ({ requests, foods }) => {
                 </div>
 
 
-                {
-                  foods
-                    .filter(food => food.donorEmail === donorEmail)
-                    .map((food) => (
-                      <div key={food._id}>
+                <div
+                  onClick={() => {
+                    setSelectedDonor(request);
+                    setShowModal(true);
+                  }}
+                  className="flex items-center gap-3 mt-auto"
+                >
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <img
+                      src={donorImage}
+                      alt={donorName}
+                      className="w-10 h-15 rounded object-cover border-2 border-gray-300"
+                    />
+                  </motion.div>
 
-                        <div
-                          onClick={() => {
-                            setSelectedDonor(food);
-                            setShowModal(true);
-                          }}
-                          className="flex items-center gap-3 mt-auto"
-                        >
-                          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <img src={food.donorImage} alt={food.donorName} className="w-10 h-15  rounded object-cover border-2 border-gray-300" />
-                          </motion.div>
+                  <div>
+                    <p className="text-base text-gray-600">Donor Name : {donorName}</p>
+                    <p className="text-base text-gray-600">Donor Email : {donorEmail}</p>
+                  </div>
+                </div>
 
-                          <div>
-                            <p className="text-base text-gray-600">Donor Name : {food.donorName}</p>
-                            <p className="text-base text-gray-600">Donor Email : {food.donorEmail}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                }
+
 
 
                 {notes && (

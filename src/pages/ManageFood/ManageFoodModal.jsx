@@ -51,7 +51,7 @@
                 additionalNotes: food.additionalNotes
             };
 
-            axios.put(`https://food-circle-server-five.vercel.app/foods/${formData.foodId}`, updatedFoodData)
+            axios.put(`https://food-circle-server-five.vercel.app/api/foods/${formData.foodId}`, updatedFoodData)
                 .then(() => {
                     Swal.fire({
                         icon: "success",

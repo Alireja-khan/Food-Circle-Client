@@ -4,6 +4,7 @@ import BannerImg from '../../assets/Banner Image/BannerImg.jpg';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Swal from 'sweetalert2';
 
 const Banner = () => {
     const [query, setQuery] = useState('');
@@ -12,7 +13,7 @@ const Banner = () => {
 
 
     useEffect(() => {
-        fetch('https://food-circle-server-five.vercel.app/foods/available')
+        fetch('https://food-circle-server-five.vercel.app/api/foods/available')
             .then(res => res.json())
             .then(data => setFoods(data));
     }, []);
@@ -31,7 +32,12 @@ const Banner = () => {
         } else if (cleanQuery.includes('food') || cleanQuery.includes('foods')) {
             navigate('/availableFoods');
         } else {
-            alert('No match found. Try searching for food or donors');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Food is not available in that moment!",
+                footer: '<a href="#">"Try for something else."</a>'
+            });
         }
     };
 

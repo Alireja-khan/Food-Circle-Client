@@ -28,7 +28,7 @@ const AddFoods = () => {
         console.log(data)
 
 
-        axios.post('https://food-circle-server-five.vercel.app/foods', data)
+        axios.post('https://food-circle-server-five.vercel.app/api/foods', data)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({

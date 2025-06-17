@@ -7,11 +7,17 @@ const FeaturedFoods = () => {
     const [foods, setFoods] = useState([]);
 
     useEffect(() => {
-        fetch('https://food-circle-server-five.vercel.app/foods/featured')
-            .then(res => res.json())
-            .then(data => setFoods(data));
-
+        fetch('https://food-circle-server-five.vercel.app/api/foods/featured')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => setFoods(data))
+            .catch(error => console.error("Error fetching featured foods:", error));
     }, []);
+
 
 
     return (

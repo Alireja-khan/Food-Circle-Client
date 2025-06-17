@@ -10,7 +10,7 @@ const MyRequestFoods = () => {
 
     // Fetch featured foods
     useEffect(() => {
-        fetch('https://food-circle-server-five.vercel.app/foods/featured')
+        fetch('https://food-circle-server-five.vercel.app/api/foods/featured')
             .then(res => res.json())
             .then(data => setFoods(data));
     }, []);
