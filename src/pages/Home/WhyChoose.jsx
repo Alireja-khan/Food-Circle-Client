@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaUserFriends, FaMapMarkerAlt, FaHeart, FaCheckCircle } from 'react-icons/fa';
-import groupImg from '../../assets/Banner Image/cherry tree-pana.png';
+import groupImg from '../../assets/Banner Image/cherry tree-cuate.png';
 import { motion } from 'framer-motion';
 
 const WhyChoose = () => {
