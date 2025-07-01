@@ -30,7 +30,7 @@ const Home = () => {
             <Achievements></Achievements>
             <FAQSection></FAQSection>
             <QuoteSection />
-            <BecomeMember></BecomeMember>
+            {/* <BecomeMember></BecomeMember> */}
         </div>
     );
 };
