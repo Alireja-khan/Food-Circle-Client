@@ -1,62 +1,128 @@
 import React from 'react';
-import { FaUserFriends, FaMapMarkerAlt, FaHeart, FaCheckCircle } from 'react-icons/fa';
-import groupImg from '../../assets/Banner Image/cherry tree-cuate.png';
 import { motion } from 'framer-motion';
+import { FaUsers, FaShieldAlt, FaRocket, FaHandsHelping } from 'react-icons/fa';
+import treeImg from '../../assets/Banner Image/cherry tree-bro.png';
+import { Link } from 'react-router-dom';
+import { MdVolunteerActivism } from 'react-icons/md';
 
-const WhyChoose = () => {
+const reasons = [
+    {
+        title: "Trusted Community",
+        description: "Join a caring network of verified donors and receivers helping each other.",
+        icon: <FaUsers className="text-4xl text-green-600" />,
+    },
+    {
+        title: "Safe & Secure",
+        description: "Your information is protected and all interactions are monitored for safety.",
+        icon: <FaShieldAlt className="text-4xl text-blue-500" />,
+    },
+    {
+        title: "Quick & Easy",
+        description: "Donate or request food with just a few clicks. No complicated steps.",
+        icon: <FaRocket className="text-4xl text-orange-500" />,
+    },
+    {
+        title: "Meaningful Impact",
+        description: "Every meal shared brings hope and dignity to someone in need.",
+        icon: <FaHandsHelping className="text-4xl text-purple-600" />,
+    },
+];
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 60 },
+    visible: (i) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+            delay: i * 0.2,
+            duration: 0.6,
+            ease: 'easeOut',
+        },
+    }),
+};
+
+const WhyChooseUs = () => {
     return (
-        <div className="px-4 sm:px-6 md:px-8 lg:px-10">
+        <section className="relative bg-green-50 pt-20 px-4 sm:px-8 lg:px-16 overflow-hidden">
+            {/* Section heading */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-5 text-center relative z-10">
+                <motion.button
+                    whileHover={{ scale: 1.25 }}
+                    whileTap={{ scale: 1.15 }}
+                    onHoverStart={() => console.log('hover started!')}
+                >
+                    <Link to="">
+                        <MdVolunteerActivism className="w-12 text-lime-500 h-12 mx-auto" />
+                    </Link>
+                </motion.button>
+                <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold">Why</p>
+                <span className="relative group rounded px-5 py-2 font-semibold text-black overflow-hidden text-3xl">
+                    <motion.span
+                        className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
+                        initial={{ height: '100%' }}
+                        animate={{ height: ['100%', '70%', '100%'] }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            repeatType: 'mirror',
+                            ease: 'easeInOut',
+                        }}
+                    ></motion.span>
+                    <span className="relative z-10 text-4xl">Choose Us</span>
+                </span>
+            </div>
 
-            <section className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto mt-10 py-10 gap-10 items-center">
+            <motion.p
+                className="text-center text-gray-500 mb-10 max-w-xl mx-auto"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: false, amount: 0.3 }}
+            >
+                We’re more than just a food-sharing platform — we’re a movement of kindness, trust, and community.
+            </motion.p>
 
-                {/* Responsive Image */}
-                <div className="flex justify-center md:justify-start">
-                    <img src={groupImg} alt="Why Us" className="w-full max-w-md sm:max-w-lg md:max-w-full h-auto" />
+
+
+            {/* Main content */}
+            <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 max-w-screen-xl mx-auto relative z-10">
+
+                {/* Left: Tree Image */}
+                <motion.div
+                    className="flex-1 flex justify-center"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1.05 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    viewport={{ once: false, amount: 0.3 }}
+                >
+                    <img
+                        src={treeImg}
+                        alt="Tree Illustration"
+                        className="w-full max-w-xl sm:max-w-2xl lg:max-w-3xl object-contain scale-105"
+                    />
+                </motion.div>
+
+                {/* Right: Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 flex-1">
+                    {reasons.map((reason, index) => (
+                        <motion.div
+                            key={index}
+                            custom={index}
+                            variants={cardVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: false, amount: 0.3 }}
+                            className="bg-white rounded-2xl shadow-md hover:shadow-lg transition hover:-translate-y-1 p-6 flex flex-col items-center text-center"
+                        >
+                            <div className="mb-4">{reason.icon}</div>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{reason.title}</h3>
+                            <p className="text-gray-500 text-sm">{reason.description}</p>
+                        </motion.div>
+                    ))}
                 </div>
-
-                {/* Content */}
-                <div className="p-4 sm:p-8 rounded-2xl max-w-2xl mx-auto">
-                    <h2 className="text-3xl flex items-center sm:text-4xl font-extrabold text-center mb-10 leading-tight tracking-tight">
-                        <span>Why Choose</span>
-                        <span className="relative group ml-3 rounded px-4 sm:px-5 py-2 font-semibold text-black overflow-hidden text-3xl sm:text-4xl inline-block">
-                            <motion.span
-                                className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
-                                initial={{ height: '100%' }}
-                                animate={{ height: ['100%', '70%', '100%'] }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    repeatType: 'mirror',
-                                    ease: 'easeInOut'
-                                }}
-                            ></motion.span>
-                            <span className="relative z-10">FoodCircle?</span>
-                        </span>
-                    </h2>
-
-                    <ul className="space-y-5 text-base sm:text-lg md:text-xl font-medium text-gray-700">
-                        <li className="flex items-center gap-4">
-                            <FaCheckCircle className="text-green-600 text-2xl sm:text-3xl" />
-                            <span className="hover:text-green-700 transition duration-300">Safe Food Sharing</span>
-                        </li>
-                        <li className="flex items-center gap-4">
-                            <FaMapMarkerAlt className="text-green-600 text-2xl sm:text-3xl" />
-                            <span className="hover:text-green-700 transition duration-300">Local Matching System</span>
-                        </li>
-                        <li className="flex items-center gap-4">
-                            <FaUserFriends className="text-green-600 text-2xl sm:text-3xl" />
-                            <span className="hover:text-green-700 transition duration-300">Easy Community Involvement</span>
-                        </li>
-                        <li className="flex items-center gap-4">
-                            <FaHeart className="text-green-600 text-2xl sm:text-3xl shrink-0 animate-pulse" />
-                            <span className="hover:text-green-700 transition duration-300">100% Free Platform</span>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
+            </div>
+        </section>
     );
 };
 
-export default WhyChoose;
+export default WhyChooseUs;
