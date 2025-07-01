@@ -6,6 +6,7 @@ import { LucideUtensilsCrossed } from 'lucide-react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
+import { GiFruitBowl } from 'react-icons/gi';
 
 const Modal = ({ setShowModal, food }) => {
     const { id: jobId } = useParams();
@@ -15,7 +16,7 @@ const Modal = ({ setShowModal, food }) => {
 
     console.log(jobId);
 
-    const handleSubmit = (e) => {   
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const requestData = {
@@ -70,31 +71,46 @@ const Modal = ({ setShowModal, food }) => {
                 onSubmit={handleSubmit}
                 className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-4xl transition-all duration-300 ease-in-out overflow-y-auto max-h-[80vh]"
             >
-                <div className="flex justify-between items-center mb-6">
-
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 text-center relative z-10">
                     <motion.button
                         whileHover={{ scale: 1.25 }}
                         whileTap={{ scale: 0.95 }}
-                        onHoverStart={() => console.log('hover started!')}
                     >
-                        <Link to='/availableFoods'>
-                            <FaBowlFood className='w-8 h-8 hover:text-[#82a079] text-[#82a079]/80' />
+                        <Link to="/availableFoods">
+                            <GiFruitBowl className="w-12 h-12 text-lime-500 mx-auto" />
                         </Link>
                     </motion.button>
 
-                    <h2 className="text-3xl font-bold text-gray-800"> Request Food</h2>
+                    <div className='flex justify-center items-center gap-5 mx-10'>
+                        <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold">Request</p>
+
+                        <span className="relative group rounded px-5 py-2 font-semibold text-black overflow-hidden text-3xl">
+                            <motion.span
+                                className="absolute bottom-0 left-0 right-0 bg-[#bee8b1] z-0"
+                                initial={{ height: '100%' }}
+                                animate={{ height: ['100%', '70%', '100%'] }}
+                                transition={{
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    repeatType: 'mirror',
+                                    ease: 'easeInOut'
+                                }}
+                            ></motion.span>
+                            <span className="relative z-10 text-4xl">Food</span>
+                        </span>
+                    </div>
 
                     <motion.button
-                        whileHover={{ scale: 1.25 }}
-                        whileTap={{ scale: 0.95 }}
-                        onHoverStart={() => console.log('hover started!')}
                         type="button"
                         onClick={() => setShowModal(false)}
-                        className=" hover:text-gray-600 text-3xl font-bold"
+                        className="absolute right-4 top-1 sm:static sm:ml-6 text-3xl font-bold hover:text-gray-600"
+                        whileHover={{ scale: 1.25 }}
+                        whileTap={{ scale: 0.95 }}
                     >
-                        <LucideUtensilsCrossed />
+                        <LucideUtensilsCrossed className='text-lime-500 w-10 h-10' />
                     </motion.button>
                 </div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
