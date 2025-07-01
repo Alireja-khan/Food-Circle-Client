@@ -7,6 +7,7 @@ import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 import { useContext } from 'react';
 import Achievements from './Achievements ';
 import BecomeMember from './BecomeMember';
+import HowItWorks from './HowItWorks';
 
 const Home = () => {
     const { loading } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const Home = () => {
         <div className='bg-green-50 '>
             <Banner />
             <FeaturedFoods />
+            <HowItWorks></HowItWorks>
             <WhyChoose />
             <Achievements></Achievements>
             <QuoteSection />
