@@ -22,10 +22,10 @@ const Home = () => {
     return (
         <div className='bg-green-50 '>
             <Banner />
-            <QuoteSection />
             <FeaturedFoods />
             <WhyChoose />
             <Achievements></Achievements>
+            <QuoteSection />
             <BecomeMember></BecomeMember>
         </div>
     );
