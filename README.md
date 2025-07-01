@@ -8,7 +8,7 @@ This app is built with **React**, **Firebase**, **MongoDB**, and **Express**, wi
 
 ## 🔗 Live Website
 
-👉 [Live Link](https://food-circle-a4f01.web.app/)     
+👉 [Live Link](utter-waste.surge.sh)     
 👉 [Server Repository](https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-Alireja-khan)
 
 ---
