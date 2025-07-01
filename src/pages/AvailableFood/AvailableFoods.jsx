@@ -44,7 +44,7 @@ const AvailableFoods = () => {
   }
 
   return (
-    <div>
+    <div className='bg-green-50'>
       <AvailableFoodCards foods={foods} />
     </div>
   );
