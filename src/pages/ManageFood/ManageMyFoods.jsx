@@ -8,7 +8,7 @@
         const { user } = useAuth();
 
         return (
-            <div>
+            <div className='bg-green-50'>
                 <Suspense fallback={
                     <div className="flex min-h-screen justify-center items-center h-60">
                         <span className="loading loading-bars loading-lg"></span>

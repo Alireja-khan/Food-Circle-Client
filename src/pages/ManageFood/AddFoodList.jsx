@@ -66,11 +66,17 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
 
     return (
 
-        <div className="px-4 sm:px-6 lg:px-8 py-10 max-w-7xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-8 pt-10 pb-30 max-w-7xl mx-auto">
             {/* Title */}
-            <div className="flex justify-center items-center gap-5 mb-6">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 text-center relative z-10">
+                <motion.button
+                    whileHover={{ scale: 1.25 }}
+                    whileTap={{ scale: 1.15 }}
+                >
+                    <HiOutlineCreditCard className="w-12 h-12 text-lime-500 mx-auto" />
+                </motion.button>
 
-                <HiOutlineCreditCard className='w-12 h-12' />
+                <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold">Manage</p>
 
                 <span className="relative group rounded px-5 py-2 font-semibold text-black overflow-hidden text-3xl">
                     <motion.span
@@ -84,9 +90,20 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
                             ease: 'easeInOut'
                         }}
                     ></motion.span>
-                    <span className="relative z-10">Manage Your Added Foods</span>
+                    <span className="relative z-10 text-4xl">Your Foods</span>
                 </span>
             </div>
+
+            <motion.p
+                className="text-gray-600 text-lg text-center max-w-2xl mx-auto mb-12"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: false, amount: 0.3 }}
+            >
+                Review, update, or remove the food items you’ve added. Keep your shared meals current and available to those in need.
+            </motion.p>
+
 
             {/* Table */}
             <div className="overflow-x-auto rounded-2xl  shadow-2xl bg-white ring-1 ring-gray-200">
@@ -165,7 +182,7 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
                             );
                         })}
                     </tbody>
-                    
+
                 </table>
             </div>
         </div>
