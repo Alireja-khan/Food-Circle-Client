@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import Achievements from './Achievements ';
 import BecomeMember from './BecomeMember';
 import HowItWorks from './HowItWorks';
+import FAQSection from './FAQSection';
 
 const Home = () => {
     const { loading } = useContext(AuthContext);
@@ -27,6 +28,7 @@ const Home = () => {
             <HowItWorks></HowItWorks>
             <WhyChoose />
             <Achievements></Achievements>
+            <FAQSection></FAQSection>
             <QuoteSection />
             <BecomeMember></BecomeMember>
         </div>
