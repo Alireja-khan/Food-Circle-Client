@@ -29,11 +29,11 @@ const FeaturedFoods = () => {
                 whileTap={{ scale: 0.95 }}
             >
                 <Link to="/availableFoods">
-                    <button className="w-full sm:w-auto px-6 sm:px-36 py-4 sm:py-6 btn bg-[#bee8b1] flex justify-center text-sm sm:text-base font-semibold">
+                    <button className="w-full sm:w-auto px-6 lg:px-100 sm:px-36 mt-10 py-4 sm:py-6 btn bg-[#bee8b1] flex justify-center text-sm sm:text-base font-semibold">
                         Show All
                     </button>
                 </Link>
-            </motion.div>
+            </motion.div>   
 
         </div>
     );
