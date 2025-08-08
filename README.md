@@ -95,7 +95,39 @@ This platform promotes community sharing and food sustainability.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 ---
 
-📬 Contact
-Developer: [Md. Alireja Khan]
-Email: ali2reja@.com
+## 🛠 How to Run Locally
+-- Clone the repository
+
+- Copy
+- Edit
+- git clone https://github.com/your-username/foodcircle.git
+- cd foodcircle
+- Install dependencies
+
+- Copy
+- Edit
+- npm install
+- Set environment variables
+- Create a .env file in the root and add:
+
+- Copy
+- Edit
+- VITE_apiKey=your_firebase_api_key
+- VITE_authDomain=your_firebase_auth_domain
+- VITE_projectId=your_firebase_project_id
+- VITE_storageBucket=your_firebase_storage_bucket
+- VITE_messagingSenderId=your_firebase_sender_id
+- VITE_appId=your_firebase_app_id
+-VITE_SERVER_URL=your_backend_url
+- Run the development server
+
+- Copy
+- Edit
+- npm run dev
+- Open in browser
+- Go to: http://localhost:5173
+
+## 📬 Contact
+- Developer: [Md. Alireja Khan]
+- Email: ali2reja@.com
 
