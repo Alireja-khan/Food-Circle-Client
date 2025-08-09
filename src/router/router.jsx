@@ -11,6 +11,7 @@ import FoodDetails from "../pages/AvailableFood/FoodDetails";
 import PrivateRoute from "./PrivateRoute";
 import MyProfile from "../pages/Profiles/MyProfile";
 import DonorProfile from "../pages/Profiles/DonorProfile";
+import Contact from "../contacts/Contact";
 // import DonorProfile from "../pages/Profiles/DonorProfile";
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: 'availableFoods',
         Component: AvailableFoods
+      },
+      {
+        path: 'contact',
+        Component: Contact
       },
       {
         path: '/foods/:id',
