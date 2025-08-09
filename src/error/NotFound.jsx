@@ -8,14 +8,23 @@ const NotFound = () => {
     return (
         <section className="min-h-screen bg-green-50 flex flex-col items-center pb-20 justify-center px-6 text-center">
 
+            <Link to='/'>
+                <motion.div
+                    whileHover={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.9 }}
 
-            <div className="md:flex flex flex-col items-center gap-3 my-6">
+                >
+                    <img className="h-100" src={errorImg} alt="" />
+                </motion.div>
+            </Link>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 text-center">
                 <motion.div
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     className="text-lime-500"
                 >
-                    <Link to='/'><GiFruitBowl className="w-18 text-lime-500 h-18" /></Link>
+                    <Link to='/'><IoWarningOutline className="w-18 text-lime-500 h-18" /></Link>
                 </motion.div>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-800">
                     Page Not
@@ -36,20 +45,23 @@ const NotFound = () => {
                 </span>
             </div>
 
-            <p className="max-w-md text-gray-600">
+            <p className="max-w-md text-gray-600 mb-5">
                 Oops! The page you're looking for doesn’t exist or has been moved. Maybe check out our home page?
             </p>
 
             <Link to='/'>
-                <motion.div
-                    whileHover={{ scale: 0.98 }}
-                    whileTap={{ scale: 0.9 }}
-                    
+                <motion.button
+                    className="mt-auto bg-[#bee8b1] btn text-lg font-medium px-4 py-2 rounded-md w-full transition"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                 >
-                    <img className="h-100" src={errorImg} alt="" />
-                </motion.div>
+                    Go to Home Page
+                </motion.button>
             </Link>
+
         </section>
+
+
     );
 };
 
