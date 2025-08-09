@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import MyProfile from "../pages/Profiles/MyProfile";
 import DonorProfile from "../pages/Profiles/DonorProfile";
 import Contact from "../contacts/Contact";
+import NotFound from "../error/NotFound";
 // import DonorProfile from "../pages/Profiles/DonorProfile";
 
 const router = createBrowserRouter([
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
         path: 'contact',
         Component: Contact
       },
+
       {
         path: '/foods/:id',
         Component: FoodDetails,
@@ -78,5 +80,9 @@ const router = createBrowserRouter([
     path: 'signUp',
     Component: SignUp
   },
+  {
+    path: "*",
+    element: <NotFound></NotFound>,
+  }
 ]);
 export default router;

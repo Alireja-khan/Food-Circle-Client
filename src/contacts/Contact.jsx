@@ -13,8 +13,8 @@ const Contact = () => {
 
     emailjs
       .sendForm(
-        "service_r28enj9",  
-        "template_vqgxz3l", 
+        "service_r28enj9",
+        "template_vqgxz3l",
         form.current,
         "wkLmEE87aqOf86SJh"
       )
@@ -53,10 +53,16 @@ const Contact = () => {
           className="space-y-6"
         >
           <ContactTitle />
-          <p className="text-gray-600 text-lg">
+          <motion.p
+            className="text-gray-600 text-lg max-w-2xl mx-auto "
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: false, amount: 0.3 }}
+          >
             Have a question or want to join our mission to reduce food waste? Fill
             out the form or reach us through the details below.
-          </p>
+          </motion.p>
           <div className="space-y-4">
             <p className="flex items-center gap-3 text-gray-700">
               <FaPhoneAlt className="text-lime-500" /> +880 173 342 89 76
