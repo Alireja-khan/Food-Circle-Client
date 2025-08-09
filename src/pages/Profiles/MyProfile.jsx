@@ -5,6 +5,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { Link, useLocation } from 'react-router-dom';
 import { myAddFoodsPromise } from '../../services/myAddFoodsApi';
 import { TbCircleCheckFilled } from "react-icons/tb";
+import userImg from '../../assets/User Images/user (2).png'
 
 const MyProfile = () => {
 
@@ -69,21 +70,19 @@ const MyProfile = () => {
 
             <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
                 <div className="px-4 py-8">
-                    <div className="shadow-2xl rounded-xl border overflow-hidden hover:shadow-2xl transition duration-300">
+                    <div className=" rounded-xl overflow-hidden  transition duration-300">
                         <div className="w-full h-full">
-                            {user.photoURL && (
-                                <img
-                                    src={user.photoURL}
-                                    alt="Profile"
-                                    className="w-full h-auto object-cover"
-                                />
-                            )}
+                            <img
+                                src={user.photoURL || userImg}
+                                alt="Profile"
+                                className="w-full h-auto object-cover"
+                            />
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <div className="px-6 bg-white py-4 mb-5 shadow-2xl border flex flex-col justify-center">
+                    <div className="px-6 bg-white py-4 mb-5 shadow  flex flex-col justify-center">
                         <p className="text-green-500 text-lg text-center mb-3">Informations</p>
 
                         <p className="text-base flex justify-between text-gray-800 mb-2">
@@ -96,7 +95,7 @@ const MyProfile = () => {
                         </p>
                     </div>
 
-                    <div className="px-6 bg-white py-4 border flex flex-col shadow-2xl justify-center">
+                    <div className="px-6 bg-white py-4  flex flex-col shadow justify-center">
                         <p className="text-green-500 text-lg text-center mb-3">Donations</p>
 
                         <div className="flex justify-between gap-4 flex-wrap">

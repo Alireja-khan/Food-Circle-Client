@@ -163,7 +163,7 @@ const SignUp = () => {
                                 <input
                                     type="text"
                                     name="photo"
-                                    required
+                                    
                                     className="input input-bordered w-full"
                                     placeholder="Input your Photo URL"
                                 />
