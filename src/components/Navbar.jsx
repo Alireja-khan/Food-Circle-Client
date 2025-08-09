@@ -62,7 +62,7 @@ const Navbar = () => {
     if (loading) return null;
 
     return (
-        <div className="sticky top-0 z-[1000] bg-white shadow-sm px-4 md:px-10">
+        <div className="sticky top-0 z-[1000] bg-white shadow-sm px-4 md:px-40">
             <div className="navbar py-3">
                 {/* Navbar Start */}
                 <div className="navbar-start">

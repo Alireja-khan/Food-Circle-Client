@@ -46,7 +46,7 @@
                     alt="Hero Background"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/70 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/75 to-black/80 z-10"></div>
 
                 {/* Content */}
                 <div className="relative z-20 w-full max-w-7xl mx-auto text-center text-white">

@@ -88,9 +88,9 @@ const FoodCards = ({ foods }) => {
                 {food.foodName}
               </h3>
 
-              <p className="text-gray-600 text-sm italic mb-4 line-clamp-3">
+              {/* <p className="text-gray-600 text-sm italic mb-4 line-clamp-3">
                 {food.additionalNotes?.replace(/^"|"$/g, '')}
-              </p>
+              </p> */}
 
               <div className='flex items-center gap-3 mb-1'>
                 <FaLocationDot className='text-green-600' />
@@ -109,7 +109,7 @@ const FoodCards = ({ foods }) => {
 
               <Link to={`/foods/${food._id}`} state={{ from: 'food', back: location.pathname }}>
                 <motion.button
-                  className="mt-auto hover:bg-[#bee8b1] btn text-sm font-medium px-4 pt-2 rounded-md w-full transition"
+                  className="mt-auto hover:bg-[#bee8b1] btn text-sm font-medium px-4 rounded-md w-full transition"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
