@@ -8,7 +8,7 @@ import { IoFastFood } from "react-icons/io5";
 import { FaSearch } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
-const AvailableFoodCards = ({ foods }) => {
+const AvailableFoodCards = ({ foods, loading }) => {
     const [sortOption, setSortOption] = useState('');
     const [sortedFoods, setSortedFoods] = useState([]);
     const location = useLocation();
@@ -65,8 +65,16 @@ const AvailableFoodCards = ({ foods }) => {
         setSortedFoods(sorted);
     }, [sortOption, foods?.length, searchResults?.length]);
 
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <span className="loading loading-bars loading-xl"></span>
+        </div>
+      );
+    }
+
     return (
-        <section className="max-w-screen-2xl mx-auto px-4 py-10">
+        <section className="max-w-screen-2xl min-h-screen mx-auto px-4 py-10">
 
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 text-center">

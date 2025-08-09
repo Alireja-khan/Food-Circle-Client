@@ -11,6 +11,11 @@ const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const dropdownRef = useRef(null);
 
+    const handleLinkClick = () => {
+        setMobileMenuOpen(false);
+    };
+
+
     // Preload user photo early
     useEffect(() => {
         if (user?.photoURL) {
@@ -22,14 +27,10 @@ const Navbar = () => {
     // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropdownOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -46,19 +47,20 @@ const Navbar = () => {
 
     const links = (
         <>
-            <NavLink className={navLinkClass} to="/">Home</NavLink>
-            <NavLink className={navLinkClass} to="/availableFoods">Available Foods</NavLink>
-            <NavLink className={navLinkClass} to="/contact">Contact</NavLink>
-            <NavLink className={navLinkClass} to="/addFoods">Add Food</NavLink>
+            <NavLink className={navLinkClass} to="/" onClick={handleLinkClick}>Home</NavLink>
+            <NavLink className={navLinkClass} to="/availableFoods" onClick={handleLinkClick}>Available Foods</NavLink>
+            <NavLink className={navLinkClass} to="/contact" onClick={handleLinkClick}>Contact</NavLink>
+            <NavLink className={navLinkClass} to="/addFoods" onClick={handleLinkClick}>Add Food</NavLink>
             {user && (
                 <>
-                    <NavLink className={navLinkClass} to="/manageMyFoods">Manage My Foods</NavLink>
-                    <NavLink className={navLinkClass} to="/myRequestFoods">My Request Foods</NavLink>
-                    <NavLink className={navLinkClass} to="/myProfile">My Profile</NavLink>
+                    <NavLink className={navLinkClass} to="/manageMyFoods" onClick={handleLinkClick}>Manage My Foods</NavLink>
+                    <NavLink className={navLinkClass} to="/myRequestFoods" onClick={handleLinkClick}>My Request Foods</NavLink>
+                    <NavLink className={navLinkClass} to="/myProfile" onClick={handleLinkClick}>My Profile</NavLink>
                 </>
             )}
         </>
     );
+
 
     if (loading) return null;
 
@@ -94,14 +96,13 @@ const Navbar = () => {
                 {/* Navbar End */}
                 <div className="navbar-end flex items-center gap-3">
                     {user ? (
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setDropdownOpen(true)}
-                            onMouseLeave={() => setDropdownOpen(false)}
-                            ref={dropdownRef}
-                        >
-                            {/* Profile Avatar */}
-                            <div role="button" className="btn btn-ghost btn-circle avatar">
+                        <div ref={dropdownRef} className="relative">
+                            {/* Profile Avatar Click */}
+                            <div
+                                role="button"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                className="btn btn-ghost btn-circle avatar"
+                            >
                                 <div className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden relative bg-gray-200">
                                     {user.photoURL ? (
                                         <img
@@ -120,7 +121,7 @@ const Navbar = () => {
                                 </div>
                             </div>
 
-                            {/* Hover Dropdown */}
+                            {/* Dropdown on Click */}
                             <AnimatePresence>
                                 {dropdownOpen && (
                                     <motion.ul
@@ -153,7 +154,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Dropdown Menu */}
+            {/* Mobile Dropdown Menu on Click */}
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.ul

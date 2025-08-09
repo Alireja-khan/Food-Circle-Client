@@ -15,7 +15,7 @@ const Home = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex bg-green-50 justify-center items-center h-screen">
                 <span className="loading loading-bars loading-xl"></span>
             </div>
         );

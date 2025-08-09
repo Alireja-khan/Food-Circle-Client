@@ -23,17 +23,11 @@ const AvailableFoods = () => {
     queryFn: fetchFoods,
   });
 
-  if (loading || isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-bars loading-xl"></span>
-      </div>
-    );
-  }
+
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         <span className="loading loading-bars loading-xl"></span>
       </div>
     );

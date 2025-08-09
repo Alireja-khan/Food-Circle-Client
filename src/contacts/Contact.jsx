@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import ContactTitle from "./ContactTitle";
 import emailjs from "@emailjs/browser";
+import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
 const Contact = () => {
+  const { loading } = useContext(AuthContext)
+
   const form = useRef();
 
   const sendEmail = (e) => {
@@ -39,6 +42,14 @@ const Contact = () => {
       );
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen h-64">
+        <span className="loading loading-bars loading-xl"></span>
+      </div>
+    );
+  }
+
   return (
     <section
       className="bg-green-50 min-h-screen flex items-center justify-center px-4"
@@ -48,7 +59,7 @@ const Contact = () => {
         {/* Left Side - Text & Info */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >

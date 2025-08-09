@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
+import { useContext } from "react";
 import { IoFastFood, IoMailOpenOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
 const ContactTitle = () => (
+
   <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 text-center">
     <motion.button
       whileHover={{ scale: 1.25 }}

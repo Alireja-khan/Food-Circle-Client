@@ -9,7 +9,7 @@ const NotFound = () => {
         <section className="min-h-screen bg-green-50 flex flex-col items-center pb-20 justify-center px-6 text-center">
 
 
-            <div className="flex items-center gap-3 my-6">
+            <div className="md:flex flex flex-col items-center gap-3 my-6">
                 <motion.div
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
@@ -40,9 +40,15 @@ const NotFound = () => {
                 Oops! The page you're looking for doesn’t exist or has been moved. Maybe check out our home page?
             </p>
 
-            <div>
-                <img className="h-100" src={errorImg} alt="" />
-            </div>
+            <Link to='/'>
+                <motion.div
+                    whileHover={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.9 }}
+                    
+                >
+                    <img className="h-100" src={errorImg} alt="" />
+                </motion.div>
+            </Link>
         </section>
     );
 };
