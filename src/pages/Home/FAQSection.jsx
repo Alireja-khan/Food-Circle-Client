@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import treeImg from '../../assets/Banner Image/cherry tree-rafiki.png'; // Your tree image path
+import faqImg from '../../assets/Images/Man thinking-cuate.png';
+
 import { Link } from 'react-router-dom';
 import { BiMessageSquareDetail } from 'react-icons/bi';
 
@@ -115,9 +116,9 @@ const FAQSection = () => {
         {/* Left: Tree Image */}
         <div className="flex justify-center flex-1 max-w-lg sm:max-w-xl lg:max-w-2xl xl:max-w-3xl">
           <motion.img
-            src={treeImg}
+            src={faqImg}
             alt="FAQ Tree Decoration"
-            className="w-full h-auto object-contain rounded-3xl scale-105"
+            className="w-full h-150 object-contain rounded-3xl scale-105"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1.05 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}

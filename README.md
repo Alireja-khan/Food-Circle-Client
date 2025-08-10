@@ -9,7 +9,7 @@ This app is built with **React**, **Firebase**, **MongoDB**, and **Express**, wi
 ## 🔗 Live Website
 
 👉 [Live Link](https://utter-waste.surge.sh/)    
-👉 [Server Repository](https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-Alireja-khan)
+👉 [Server Repository](https://github.com/Alireja-khan/Food-Circle-Server)
 
 ---
 

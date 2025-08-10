@@ -9,11 +9,12 @@ import { MdEmail, MdOutlineFoodBank } from 'react-icons/md';
 import { BiSolidNotepad, BiTimeFive } from 'react-icons/bi';
 import DonorProfile from '../Profiles/DonorProfile';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAuth from '../../hooks/UseAuth';
 
 const FoodDetails = () => {
+  const { user } = useAuth();
   const food = useLoaderData();
   const [showModal, setShowModal] = useState(false);
-  const [showFullDonorImage, setShowFullDonorImage] = useState(false);
   const [selectedDonor, setSelectedDonor] = useState(null);
   const { loading } = useContext(AuthContext);
   const location = useLocation();
@@ -125,12 +126,12 @@ const FoodDetails = () => {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex flex-col items-center mb-6">
                   <div className="bg-white rounded-xl mb-5 shadow-lg overflow-hidden">
-                      <img
-                        src={food.donorImage}
-                        alt={food.donorName}
-                        className="w-50 h-50 object-cover object-top hover:opacity-90 transition-opacity"
-                      />
-                    </div>
+                    <img
+                      src={food.donorImage}
+                      alt={food.donorName}
+                      className="w-50 h-50 object-cover object-top hover:opacity-90 transition-opacity"
+                    />
+                  </div>
 
                   <div
                     onClick={() => {
@@ -189,8 +190,14 @@ const FoodDetails = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setShowModal(true)}
-                  className="w-full bg-[#bee8b1] font-medium py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg mb-4"
+                  onClick={() => {
+                    if (user) {
+                      setShowModal(true);
+                    } else {
+                      navigate('/signIn');
+                    }
+                  }}
+                  className="w-full bg-[#bee8b1] font-medium py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg mb-4 hover:bg-[#a8d897]"
                 >
                   Request Now
                 </motion.button>
