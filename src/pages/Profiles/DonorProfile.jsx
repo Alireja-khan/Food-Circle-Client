@@ -21,14 +21,9 @@ const DonorProfile = ({ food }) => {
     return (
         <div className="px-4 pb-35 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-5 text-center relative z-10">
-                <motion.button
-                    whileHover={{ scale: 1.25 }}
-                    whileTap={{ scale: 1.15 }}
-                >
-                    <Link to="/profile">
-                        <BsPersonFill className="w-12 h-12 text-lime-500 mx-auto" />
-                    </Link>
-                </motion.button>
+                <div>
+                    <BsPersonFill className="w-12 h-12 text-lime-500 mx-auto" />
+                </div>
 
                 <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold">Donor</p>
 
