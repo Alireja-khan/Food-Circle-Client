@@ -197,26 +197,6 @@ const AvailableFoodCards = ({ foods, loading }) => {
                                 </p>
                             </div>
 
-                            <div
-                                onClick={() => {
-                                    setSelectedDonor(food);
-                                    setShowModal(true);
-                                }}
-                                className="flex items-center gap-3 mb-3 cursor-pointer"
-                            >
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                    <img src={food.donorImage} alt={food.donorName} className="w-12 h-12 rounded object-cover border-2 border-gray-300" />
-                                </motion.div>
-                                <div className="w-full">
-                                    <p className="text-sm text-gray-600 truncate" title={food.donorName}>
-                                        <span className='font-semibold text-base'>Donor Name:</span> {food.donorName}
-                                    </p>
-                                    <p className="text-sm text-gray-600 truncate" title={food.userEmail}>
-                                        <span className='font-semibold text-base'>Donor Email:</span> {food.userEmail}
-                                    </p>
-                                </div>
-                            </div>
-
                             <Link to={`/foods/${food._id}`}>
                                 <motion.button
                                     className="mt-auto hover:bg-[#bee8b1] btn text-sm font-medium px-4 py-2 rounded-md w-full transition"
@@ -228,7 +208,7 @@ const AvailableFoodCards = ({ foods, loading }) => {
                             </Link>
 
                             {/* Modal */}
-                            <AnimatePresence>
+                            {/* <AnimatePresence>
                                 {showModal && selectedDonor && (
                                     <motion.div
                                         className="fixed inset-0 bg-black/10 flex items-center justify-center z-50"
@@ -272,7 +252,7 @@ const AvailableFoodCards = ({ foods, loading }) => {
                                         </motion.div>
                                     </motion.div>
                                 )}
-                            </AnimatePresence>
+                            </AnimatePresence> */}
                         </div>
                     </div>
                 ))}

@@ -117,12 +117,14 @@ const Contact = () => {
             className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-lime-400"
             required
           ></textarea>
-          <button
+          <motion.button
+            className="w-full bg-[#bee8b1] hover:bg-[#bee8b1] font-medium py-3 px-4 rounded-lg transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full bg-lime-500 text-white font-semibold py-3 rounded-lg hover:bg-lime-600 transition"
           >
             Send Message
-          </button>
+          </motion.button>
         </motion.form>
       </div>
     </section>

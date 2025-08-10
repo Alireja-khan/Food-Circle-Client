@@ -13,7 +13,6 @@ import MyProfile from "../pages/Profiles/MyProfile";
 import DonorProfile from "../pages/Profiles/DonorProfile";
 import Contact from "../contacts/Contact";
 import NotFound from "../error/NotFound";
-// import DonorProfile from "../pages/Profiles/DonorProfile";
 
 const router = createBrowserRouter([
   {

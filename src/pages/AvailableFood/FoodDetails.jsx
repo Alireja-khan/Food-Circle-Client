@@ -8,12 +8,13 @@ import { BsBoxArrowInLeft, BsPersonRaisedHand } from 'react-icons/bs';
 import { MdEmail, MdOutlineFoodBank } from 'react-icons/md';
 import { BiSolidNotepad, BiTimeFive } from 'react-icons/bi';
 import DonorProfile from '../Profiles/DonorProfile';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FoodDetails = () => {
   const food = useLoaderData();
   const [showModal, setShowModal] = useState(false);
   const [showFullDonorImage, setShowFullDonorImage] = useState(false);
+  const [selectedDonor, setSelectedDonor] = useState(null);
   const { loading } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,26 +30,8 @@ const FoodDetails = () => {
     );
   }
 
-  console.log(food.status)
-
   return (
     <div className="min-h-screen bg-green-50 py-12 px-4 sm:px-6 lg:px-8">
-      {/* Full Donor Image Modal */}
-      {showFullDonorImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-          <button
-            onClick={() => setShowFullDonorImage(false)}
-            className="absolute top-4 right-4 text-white text-4xl"
-          >
-            &times;
-          </button>
-          <img
-            src={food.donorImage || '/default-avatar.png'}
-            alt={food.donorName}
-            className="max-w-full max-h-full object-contain rounded-lg"
-          />
-        </div>
-      )}
 
       <div className="max-w-7xl mx-auto">
         {/* Header with back button */}
@@ -130,7 +113,7 @@ const FoodDetails = () => {
                     <BiSolidNotepad className="w-5 h-5 text-gray-500" />
                     <p className="font-semibold">Description:</p>
                   </div>
-                  <p className="text-gray-600">{food.additionalNotes}</p>
+                  <p className="text-gray-600 max-w-150">{food.additionalNotes}</p>
                 </div>
               </div>
 
@@ -141,19 +124,25 @@ const FoodDetails = () => {
               {/* Donor profile card */}
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex flex-col items-center mb-6">
-
                   <div className="bg-white rounded-xl mb-5 shadow-lg overflow-hidden">
-                    <img
-                      src={food.donorImage}
-                      alt={food.donorName}
-                      className="w-44 h-44 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                      onClick={() => window.open(food.donorImage, '_blank')}
-                    />
+                      <img
+                        src={food.donorImage}
+                        alt={food.donorName}
+                        className="w-50 h-50 object-cover object-top hover:opacity-90 transition-opacity"
+                      />
+                    </div>
+
+                  <div
+                    onClick={() => {
+                      setSelectedDonor(food);
+                    }}
+                    className="cursor-pointer text-center"
+                  >
+                    <h3 className="text-xl font-bold text-gray-900 hover:text-green-600 transition-colors">
+                      {food.donorName}
+                    </h3>
+                    <p className="text-gray-600">{food.donorRole || 'Food Donor'}</p>
                   </div>
-
-
-                  <h3 className="text-xl font-bold text-gray-900">{food.donorName}</h3>
-                  <p className="text-gray-600">{food.donorRole || 'Food Donor'}</p>
                 </div>
 
                 <div className="space-y-4">
@@ -164,16 +153,6 @@ const FoodDetails = () => {
                       <p className="text-gray-900">{food.donorEmail}</p>
                     </div>
                   </div>
-
-                  {food.donorPhone && (
-                    <div className="flex items-start">
-                      <FaPhone className="mt-1 mr-3 text-orange-500" />
-                      <div>
-                        <p className="text-sm font-medium text-gray-500">Phone</p>
-                        <p className="text-gray-900">{food.donorPhone}</p>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="flex items-start">
                     <FaMapMarkerAlt className="mt-1 mr-3 text-orange-500" />
@@ -187,13 +166,18 @@ const FoodDetails = () => {
                       )}
                     </div>
                   </div>
+                </div>
 
-                  <div className="pt-4 border-t border-gray-200">
-                    <h4 className="text-sm font-medium text-gray-500 mb-2">About the Donor</h4>
-                    <p className="text-gray-600">
-                      {food.donorBio || 'This donor hasn\'t provided additional information yet.'}
-                    </p>
-                  </div>
+                <div className="mt-6 pt-4 border-t border-gray-200">
+                  <Link to={`/foods/${food._id}`} state={{ from: 'profile' }}>
+                    <motion.button
+                      className="w-full bg-[#bee8b1] hover:bg-[#bee8b1] font-medium py-2 px-4 rounded-lg transition-colors"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      View Full Profile
+                    </motion.button>
+                  </Link>
                 </div>
               </div>
 
@@ -206,30 +190,10 @@ const FoodDetails = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowModal(true)}
-                  className="w-full bg-[#bee8b1]  font-medium py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg mb-4"
+                  className="w-full bg-[#bee8b1] font-medium py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg mb-4"
                 >
                   Request Now
                 </motion.button>
-
-                {/* <div className="flex  space-x-4">
-
-                  <button
-                    onClick={handleEmailClick}
-                    className="text-indigo-600 hover:text-indigo-800 flex items-center"
-                  >
-                    <MdEmail className="mr-2" />
-                    <span>{food.donorEmail}</span>
-                  </button>
-                  <Link>
-                    <button
-                      className="text-indigo-600 hover:text-indigo-800 flex items-center"
-                    >
-                      <GiFruitBowl className="mr-2" />
-                      <span>Support</span>
-                    </button>
-                  </Link>
-
-                </div> */}
               </div>
             </div>
           </div>
@@ -239,6 +203,53 @@ const FoodDetails = () => {
 
         {/* Modal for food request */}
         {showModal && <Modal setShowModal={setShowModal} food={food} />}
+
+        {/* Donor Profile Modal */}
+        {/* <AnimatePresence>
+          {selectedDonor && showFullDonorImage && (
+            <motion.div
+              className="fixed inset-0 bg-black/10 flex items-center justify-center z-50"
+              onClick={() => {
+                setShowFullDonorImage(false);
+                setSelectedDonor(null);
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <motion.div
+                layoutId="profile-photo"
+                className="w-80 bg-white rounded-b-2xl overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="w-full h-110 overflow-hidden">
+                  <motion.img
+                    src={selectedDonor.donorImage}
+                    alt="Expanded Donor"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+
+                <div className="p-5 text-center space-y-2">
+                  <p className="text-xl font-semibold text-gray-800">{selectedDonor.donorName}</p>
+                  <p className="text-sm text-gray-500">{selectedDonor.donorEmail}</p>
+                </div>
+
+                <div className="border-t-gray-900">
+                  <Link to={`/foods/${selectedDonor._id}`} state={{ from: 'profile' }}>
+                    <motion.button
+                      className="btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Show Profile
+                    </motion.button>
+                  </Link>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence> */}
       </div>
     </div>
   );

@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { GiFruitBowl } from "react-icons/gi";
+import { FiUpload, FiUser, FiCalendar, FiMapPin, FiInfo } from 'react-icons/fi';
+import { IoFastFoodOutline, IoPricetagOutline } from 'react-icons/io5';
+import { MdEmail } from 'react-icons/md';
 
 const AddFoods = () => {
     const { user } = useAuth();
@@ -40,10 +43,9 @@ const AddFoods = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-start bg-green-50 justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-6xl bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 p-8 sm:p-12">
-
-                {/* Header */}
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                {/* Header - Preserved as requested */}
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 text-center relative z-10">
                     <motion.button
                         whileHover={{ scale: 1.25 }}
@@ -82,163 +84,189 @@ const AddFoods = () => {
                     Add surplus or extra food here and help reduce waste. Enter details like image, quantity, and expiry, and share with the community through FoodCircle.
                 </motion.p>
 
+                {/* Modern Form Card */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <form onSubmit={handleAddFood} className="p-6 sm:p-8">
+                        <div className="space-y-6">
+                            {/* Food Information Section */}
+                            <div className="space-y-4">
+                                <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                    <IoFastFoodOutline className="text-lime-500" />
+                                    Food Information
+                                </h3>
 
-                {/* Form */}
-                <form onSubmit={handleAddFood}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Food Name</label>
-                            <input
-                                type="text"
-                                name="foodName"
-                                placeholder="Enter food name"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                required
-                            />
-                        </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Food Name</label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                name="foodName"
+                                                placeholder="e.g. Fresh Salad, Pasta"
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                required
+                                            />
+                                            <IoFastFoodOutline className="absolute left-3 top-3 text-gray-400" />
+                                        </div>
+                                    </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Food Image URL</label>
-                            <input
-                                type="text"
-                                name="foodImage"
-                                placeholder="Paste image URL"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                required
-                            />
-                        </div>
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Food Image URL</label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                name="foodImage"
+                                                placeholder="Paste image URL"
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                required
+                                            />
+                                            <FiUpload className="absolute left-3 top-3 text-gray-400" />
+                                        </div>
+                                    </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Food Quantity</label>
-                            <input
-                                type="number"
-                                name="quantity"
-                                placeholder="Enter Food Quantity"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                required
-                            />
-                        </div>
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Quantity</label>
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                name="quantity"
+                                                placeholder="Number of servings"
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                required
+                                            />
+                                            <IoPricetagOutline className="absolute left-3 top-3 text-gray-400" />
+                                        </div>
+                                    </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Pickup Location</label>
-                            <input
-                                type="text"
-                                name="pickupLocation"
-                                placeholder="Write Pickup Location"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                required
-                            />
-                        </div>
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Category</label>
+                                        <div className="relative">
+                                            <select
+                                                name="category"
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white"
+                                                required
+                                            >
+                                                <option value="">Select category</option>
+                                                <option value="vegetarian">Vegetarian</option>
+                                                <option value="non-vegetarian">Non-Vegetarian</option>
+                                                <option value="vegan">Vegan</option>
+                                                <option value="gluten-free">Gluten Free</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                            <FiInfo className="absolute left-3 top-3 text-gray-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date & Time</label>
-                            <input
-                                type="date"
-                                name="expireDate"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                required
-                            />
-                        </div>
+                            {/* Location & Timing Section */}
+                            <div className="space-y-4">
+                                <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                    <FiMapPin className="text-orange-500" />
+                                    Location & Timing
+                                </h3>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Food Status</label>
-                            <select
-                                name="status"
-                                defaultValue="available"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                required
-                            >
-                                <option value="available">Available</option>
-                            </select>
-                        </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Pickup Location</label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                name="pickupLocation"
+                                                placeholder="Address or landmark"
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                required
+                                            />
+                                            <FiMapPin className="absolute left-3 top-3 text-gray-400" />
+                                        </div>
+                                    </div>
 
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
-                            <textarea
-                                name="additionalNotes"
-                                rows="4"
-                                placeholder="Mention ingredients, allergens, or any note"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 resize-none"
-                            />
-                        </div>
-                    </div>
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Expiry Date</label>
+                                        <div className="relative">
+                                            <input
+                                                type="date"
+                                                name="expireDate"
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                required
+                                            />
+                                            <FiCalendar className="absolute left-3 top-3 text-gray-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    {/* Donor Info Card */}
-                    <motion.div
-                        onClick={() => setShowModal(true)}
-                        className="flex items-center gap-4 border mb-4 mt-8 p-4 rounded shadow-sm cursor-pointer"
-                        whileHover={{ scale: 0.99 }}
-                        whileTap={{ scale: 0.85 }}
-                    >
-                        <div className="w-10 h-20 rounded ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
-                            <img
-                                src={user.photoURL}
-                                alt="Donor"
-                                className="object-cover w-full h-full"
-                            />
-                        </div>
+                            <div className='grid grid-cols-2 gap-5'>
 
-                        <div>
-                            <p className="font-semibold text-gray-800">{user.displayName}</p>
-                            <p className="text-sm text-gray-500">{user.email}</p>
-                        </div>
-                    </motion.div>
+                                {/* Additional Information */}
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                        <FiInfo className="text-gray-500" />
+                                        Additional Information
+                                    </h3>
 
-                    <motion.button
-                        type="submit"
-                        className="w-full hover:shadow-2xl bg-[#bee8b1]/50 hover:bg-[#bee8b1]/70 border text-lg font-semibold py-3 rounded transition duration-200"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        Add Food
-                    </motion.button>
-
-                    {/* Modal */}
-                    <AnimatePresence>
-                        {showModal && (
-                            <motion.div
-                                className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-                                onClick={() => setShowModal(false)}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                            >
-                                <motion.div
-                                    className="w-80 bg-white rounded-b-2xl overflow-hidden"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    {/* Image */}
-                                    <div className="w-full h-110 overflow-hidden">
-                                        <img
-                                            src={user.photoURL}
-                                            alt="Expanded Donor"
-                                            className="object-cover w-full h-full"
+                                    <div className="space-y-1">
+                                        <label className="block text-sm font-medium text-gray-700">Notes</label>
+                                        <textarea
+                                            name="additionalNotes"
+                                            rows="3"
+                                            placeholder="Ingredients, allergens, special instructions..."
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
                                         />
                                     </div>
+                                </div>
 
-                                    {/* User Info */}
-                                    <div className="p-5 text-center space-y-2">
-                                        <p className="text-xl font-semibold text-gray-800">{user.displayName}</p>
-                                        <p className="text-sm text-gray-500">{user.email}</p>
-                                    </div>
+                                {/* Donor Card */}
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                        <FiUser className="text-green-500" />
+                                        Your Information
+                                    </h3>
 
-                                    {/* Button */}
-                                    <div className='border-t-gray-900'>
-                                        <Link to='/myProfile'>
-                                            <motion.button
-                                                className='btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto'
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                            >
-                                                Show Profile
-                                            </motion.button>
-                                        </Link>
+                                    <div className='flex gap-5 items-center'>
+                                        <div className="h-28 overflow-hidden ">
+                                            <img
+                                                src={user.photoURL}
+                                                alt="Donor"
+                                                className="object-cover rounded-lg w-full h-full"
+                                            />
+                                        </div>
+                                        <div>
+                                            <div className="flex ">
+                                                <FiUser className="mt-1 w-6 h-6 mr-3 text-green-500" />
+                                                <div className=' items-center gap-3 mb-3'>
+                                                    <p className="text-sm font-medium text-gray-500">Name :</p>
+                                                    <p className="text-gray-900">{user.displayName}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex ">
+                                                <MdEmail className="mt-1 w-6 h-6 mr-3 text-blue-500" />
+                                                <div className=' items-center gap-3'>
+                                                    <p className="text-sm font-medium text-gray-500">Email :</p>
+                                                    <p className="text-gray-900">{user.email}</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </motion.div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="mt-8">
+                            <motion.button
+                                type="submit"
+                                className="w-full bg-[#bee8b1] font-medium py-3 px-6 rounded-lg shadow-sm hover:shadow-md transition-all"
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                Add Food Donation
+                            </motion.button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
