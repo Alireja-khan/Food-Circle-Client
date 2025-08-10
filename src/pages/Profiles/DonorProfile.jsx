@@ -90,18 +90,12 @@ const DonorProfile = ({ food }) => {
                         <div className="flex justify-between gap-4 flex-wrap">
                             <div>
                                 {foodsData.map((item) => (
-                                    <Link
-                                        to={`/foods/${item._id}`}
-                                        state={{ from: 'donor', back: location.pathname }}
-                                        key={item._id}
-                                    >
-                                        <p className="hover:font-semibold flex justify-between items-center gap-3">
-                                            {item.foodName}
-                                            {item.status === 'available' && (
-                                                <TbCircleCheckFilled className="text-blue-500" />
-                                            )}
-                                        </p>
-                                    </Link>
+                                    <p className="hover:font-semibold flex justify-between items-center gap-3">
+                                        {item.foodName}
+                                        {item.status === 'available' && (
+                                            <TbCircleCheckFilled className="text-blue-500" />
+                                        )}
+                                    </p>
                                 ))}
                             </div>
 
