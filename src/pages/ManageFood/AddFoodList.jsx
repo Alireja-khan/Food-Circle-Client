@@ -106,7 +106,7 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
 
 
             {/* Table */}
-            <div className="overflow-x-auto rounded-2xl  shadow-2xl bg-white ring-1 ring-gray-200">
+            <div className="overflow-x-auto rounded-2xl bg-white ring-1 ring-gray-200">
 
                 <table className="min-w-full divide-y divide-gray-200 text-sm">
 
