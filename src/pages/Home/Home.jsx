@@ -22,7 +22,7 @@ const Home = () => {
     }
     
     return (
-        <div className='bg-green-50 '>
+        <div className=''>
             <Banner />
             <FeaturedFoods />
             <HowItWorks></HowItWorks>

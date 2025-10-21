@@ -8,7 +8,7 @@ const AvailableFoods = () => {
   const { loading } = useContext(AuthContext);
 
   const fetchFoods = async () => {
-  const res = await axios.get('https://food-circle-server-five.vercel.app/api/foods/available');
+  const res = await axios.get('http://localhost:5000/api/foods/available');
   return res.data;
 };
 

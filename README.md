@@ -125,7 +125,7 @@ This platform promotes community sharing and food sustainability.
 - Edit
 - npm run dev
 - Open in browser
-- Go to: http://localhost:5173
+- Go to: http://localhost:3000
 
 ## 📬 Contact
 - Developer: [Md. Alireja Khan]

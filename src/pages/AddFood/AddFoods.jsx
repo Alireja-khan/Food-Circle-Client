@@ -25,7 +25,7 @@ const AddFoods = () => {
         data.donorImage = user.photoURL;
         data.donorEmail = user.email;
 
-        axios.post('https://food-circle-server-five.vercel.app/api/foods', data)
+        axios.post('http://localhost:3000/api/foods', data)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({

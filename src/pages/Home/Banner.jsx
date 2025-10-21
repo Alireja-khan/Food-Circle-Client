@@ -12,7 +12,7 @@
         const navigate = useNavigate();
 
         useEffect(() => {
-            fetch('https://food-circle-server-five.vercel.app/api/foods/available')
+            fetch('http://localhost:3000/api/foods/available')
                 .then(res => res.json())
                 .then(data => setFoods(data));
         }, []);

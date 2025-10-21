@@ -37,19 +37,25 @@ const router = createBrowserRouter([
         path: 'contact',
         Component: Contact
       },
-
       {
         path: '/foods/:id',
         Component: FoodDetails,
-        loader: ({ params }) => fetch(`https://food-circle-server-five.vercel.app/api/foods/${params.id}`)
+        loader: async ({ params }) => {
+          try {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/foods/${params.id}`);
+            if (!response.ok) {
+              throw new Error('Food not found');
+            }
+            return await response.json();
+          } catch (error) {
+            return { error: true, message: 'Failed to load food details' };
+          }
+        }
       },
-
       {
         path: 'donorProfile',
         element: <DonorProfile />
       },
-
-
       {
         path: 'manageMyFoods',
         element: <PrivateRoute>
@@ -68,7 +74,6 @@ const router = createBrowserRouter([
           <MyProfile></MyProfile>
         </PrivateRoute>
       },
-
     ]
   },
   {
@@ -84,4 +89,5 @@ const router = createBrowserRouter([
     element: <NotFound></NotFound>,
   }
 ]);
+
 export default router;

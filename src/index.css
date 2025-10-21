@@ -1,14 +1,15 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-   themes: light --default
- }
 
- .active {
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+.active {
   background-color: #bee8b1;
 
   color: rgba(0, 0, 0, 0.7);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-              0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
-
-
