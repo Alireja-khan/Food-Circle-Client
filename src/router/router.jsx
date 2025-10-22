@@ -13,6 +13,8 @@ import MyProfile from "../pages/Profiles/MyProfile";
 import DonorProfile from "../pages/Profiles/DonorProfile";
 import Contact from "../contacts/Contact";
 import NotFound from "../error/NotFound";
+import ChatDashboard from "../pages/Chat/ChatDashboard";
+import ChatRoom from "../pages/Chat/ChatRoom";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +44,7 @@ const router = createBrowserRouter([
         Component: FoodDetails,
         loader: async ({ params }) => {
           try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/foods/${params.id}`);
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/foods/${params.id}`);
             if (!response.ok) {
               throw new Error('Food not found');
             }
@@ -73,6 +75,31 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
           <MyProfile></MyProfile>
         </PrivateRoute>
+      },
+      // 🆕 Chat Routes
+      {
+        path: 'chat',
+        element: <PrivateRoute>
+          <ChatDashboard />
+        </PrivateRoute>
+      },
+      {
+        path: 'chat/:roomId',
+        element: <PrivateRoute>
+          <ChatRoom />
+        </PrivateRoute>,
+        loader: async ({ params }) => {
+          try {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/messages/${params.roomId}`);
+            if (!response.ok) {
+              throw new Error('Chat room not found');
+            }
+            const messages = await response.json();
+            return { roomId: params.roomId, initialMessages: messages };
+          } catch (error) {
+            return { roomId: params.roomId, initialMessages: [], error: 'Failed to load messages' };
+          }
+        }
       },
     ]
   },

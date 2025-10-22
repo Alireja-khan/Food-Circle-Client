@@ -33,7 +33,7 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
 
         if (result.isConfirmed) {
             try {
-                const res = await axios.delete(`http://localhost:3000/api/delete-food/${id}`);
+                const res = await axios.delete(`http://localhost:5000/api/delete-food/${id}`);
 
                 if (res.data.success) {
                     Swal.fire({

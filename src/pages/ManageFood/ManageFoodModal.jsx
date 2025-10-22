@@ -54,7 +54,7 @@ const ManageFoodModal = ({ setShowModal, food, onUpdate }) => {
         };
 
         try {
-            await axios.put(`http://localhost:3000/api/foods/${formData.foodId}`, updatedFoodData);
+            await axios.put(`http://localhost:5000/api/foods/${formData.foodId}`, updatedFoodData);
             Swal.fire({
                 icon: "success",
                 title: "Food Info Updated",

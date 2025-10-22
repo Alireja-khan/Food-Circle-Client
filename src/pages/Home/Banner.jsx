@@ -12,7 +12,7 @@
         const navigate = useNavigate();
 
         useEffect(() => {
-            fetch('http://localhost:3000/api/foods/available')
+            fetch('http://localhost:5000/api/foods/available')
                 .then(res => res.json())
                 .then(data => setFoods(data));
         }, []);

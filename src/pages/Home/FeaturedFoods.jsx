@@ -7,7 +7,7 @@ const FeaturedFoods = () => {
     const [foods, setFoods] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/foods/featured')
+        fetch('http://localhost:5000/api/foods/featured')
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! Status: ${res.status}`);

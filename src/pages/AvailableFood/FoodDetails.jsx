@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FaCalendarAlt, FaMapMarkerAlt, FaPhone, FaUser } from 'react-icons/fa';
+import { FaCalendarAlt, FaComments, FaMapMarkerAlt, FaPhone, FaUser } from 'react-icons/fa';
 import { FaBowlRice, FaTag } from 'react-icons/fa6';
 import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
@@ -10,6 +10,8 @@ import { BiSolidNotepad, BiTimeFive } from 'react-icons/bi';
 import DonorProfile from '../Profiles/DonorProfile';
 import { motion, AnimatePresence } from 'framer-motion';
 import useAuth from '../../hooks/UseAuth';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const FoodDetails = () => {
   const { user } = useAuth();
@@ -201,6 +203,63 @@ const FoodDetails = () => {
                 >
                   Request Now
                 </motion.button>
+
+                {/* Chat with Donor Card */}
+                <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Chat with Donor</h3>
+                  <p className="text-gray-600 mb-6">Have questions about this food? Chat directly with the donor.</p>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={async () => {
+                      if (user) {
+                        try {
+                          // Get donor's user ID from backend
+                          const donorResponse = await axios.get(`http://localhost:5000/api/user/${food.donorEmail}`);
+                          const donorUserId = donorResponse.data.userId;
+
+                          // Create consistent room ID using both Firebase UIDs
+                          const roomId = [user.uid, donorUserId].sort().join('_');
+
+                          // Navigate directly to chat room
+                          navigate(`/chat/${roomId}`, {
+                            state: {
+                              donorInfo: {
+                                userId: donorUserId,
+                                userName: food.donorName,
+                                userEmail: food.donorEmail,
+                                userImage: food.donorImage
+                              }
+                            }
+                          });
+                        } catch (error) {
+                          console.error('Error starting chat:', error);
+                          // Fallback: use email as ID if user not found
+                          const roomId = [user.uid, food.donorEmail].sort().join('_');
+                          navigate(`/chat/${roomId}`, {
+                            state: {
+                              donorInfo: {
+                                userId: food.donorEmail,
+                                userName: food.donorName,
+                                userEmail: food.donorEmail,
+                                userImage: food.donorImage
+                              }
+                            }
+                          });
+                        }
+                      } else {
+                        navigate('/signIn');
+                      }
+                    }}
+                    className="w-full bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg hover:bg-blue-600 flex items-center justify-center gap-2"
+                  >
+                    <FaComments />
+                    Start Chat
+                  </motion.button>
+                </div>
+
+
               </div>
             </div>
           </div>

@@ -36,9 +36,9 @@ const Modal = ({ setShowModal, food }) => {
         };
 
         try {
-            const res = await axios.post('http://localhost:3000/api/requests', requestData);
+            const res = await axios.post('http://localhost:5000/api/requests', requestData);
             if (res.data.insertedId) {
-                await axios.patch(`http://localhost:3000/api/foods/${food._id}/status`, { status: "requested" });
+                await axios.patch(`http://localhost:5000/api/foods/${food._id}/status`, { status: "requested" });
                 Swal.fire({
                     icon: "success",
                     title: "Request Submitted!",
