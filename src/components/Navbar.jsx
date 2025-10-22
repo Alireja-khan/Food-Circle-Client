@@ -4,12 +4,15 @@ import { GiFruitBowl } from "react-icons/gi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { AuthContext } from '../contexts/AuthContext/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaComments, FaBell } from 'react-icons/fa';
 import { PiChatCircleTextLight } from "react-icons/pi";
 import { useSocket } from '../contexts/SocketContext/SocketContext';
+import NotificationIcon from './NotificationIcon';
+import { useNotification } from '../contexts/NotificationContext/NotificationContext';
+import NotificationDrawer from './NotificationDrawer';
 
 const Navbar = () => {
-    const { unreadCount } = useSocket();
+    const { unreadCount: chatUnreadCount } = useSocket();
+    const { unreadCount: notificationUnreadCount } = useNotification();
     const { user, signOutUser, loading } = useContext(AuthContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -113,13 +116,16 @@ const Navbar = () => {
 
                     {user && (
                         <>
+                            {/* Notification Icon */}
+                            <NotificationIcon />
+                            
                             {/* Chat Notification Icon */}
                             <div className="relative">
                                 <Link to="/chat" className="btn btn-ghost btn-circle">
                                     <PiChatCircleTextLight className="w-7 h-7" />
-                                    {unreadCount > 0 && (
+                                    {chatUnreadCount > 0 && (
                                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                            {unreadCount > 9 ? '9+' : unreadCount}
+                                            {chatUnreadCount > 9 ? '9+' : chatUnreadCount}
                                         </span>
                                     )}
                                 </Link>
@@ -218,6 +224,9 @@ const Navbar = () => {
                     </motion.ul>
                 )}
             </AnimatePresence>
+
+            {/* Notification Drawer */}
+            <NotificationDrawer />
         </div>
     );
 };
