@@ -15,7 +15,82 @@ const AddFoods = () => {
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
+    const [quantityUnit, setQuantityUnit] = useState('servings'); // Default unit
+    const [customUnit, setCustomUnit] = useState('');
+    const [showCustomUnit, setShowCustomUnit] = useState(false);
     const navigate = useNavigate();
+
+    // Food name to unit mapping with intelligent suggestions
+    const foodUnitMapping = {
+        // Liquids
+        'water': 'liters', 'juice': 'liters', 'milk': 'liters', 'soda': 'liters', 
+        'soup': 'liters', 'oil': 'liters', 'sauce': 'liters', 'broth': 'liters',
+        'tea': 'liters', 'coffee': 'liters', 'smoothie': 'liters', 'yogurt': 'liters',
+        
+        // Grains & Bulk Items
+        'rice': 'kg', 'flour': 'kg', 'sugar': 'kg', 'salt': 'kg', 'pasta': 'kg',
+        'beans': 'kg', 'lentils': 'kg', 'cereal': 'kg', 'oats': 'kg', 'grains': 'kg',
+        'nuts': 'kg', 'seeds': 'kg', 'spices': 'kg',
+        
+        // Fruits & Vegetables (typically sold by weight)
+        'apple': 'kg', 'banana': 'kg', 'orange': 'kg', 'potato': 'kg', 'tomato': 'kg',
+        'onion': 'kg', 'carrot': 'kg', 'broccoli': 'kg', 'spinach': 'kg', 'lettuce': 'kg',
+        'mango': 'kg', 'berry': 'kg', 'grape': 'kg', 'pepper': 'kg', 'cucumber': 'kg',
+        'fruit': 'kg', 'vegetable': 'kg',
+        
+        // Packaged/Countable Items
+        'bread': 'loaves', 'pizza': 'pizzas', 'sandwich': 'sandwiches', 'burger': 'burgers',
+        'cake': 'cakes', 'pie': 'pies', 'cookie': 'cookies', 'biscuit': 'biscuits',
+        'egg': 'eggs', 'cupcake': 'cupcakes', 'muffin': 'muffins', 'donut': 'donuts',
+        
+        // Portioned Items
+        'meal': 'portions', 'curry': 'portions', 'stew': 'portions', 'salad': 'portions',
+        'lasagna': 'portions', 'casserole': 'portions',
+        
+        // Beverages (packaged)
+        'can': 'cans', 'bottle': 'bottles', 'pack': 'packs', 'carton': 'cartons'
+    };
+
+    const commonUnits = [
+        'servings', 'portions', 'plates', 'kg', 'grams', 'liters', 'ml', 
+        'pieces', 'packets', 'boxes', 'loaves', 'bottles', 'cans'
+    ];
+
+    const handleFoodNameChange = (e) => {
+        const foodName = e.target.value.toLowerCase().trim();
+        
+        if (!foodName) {
+            setQuantityUnit('servings');
+            setShowCustomUnit(false);
+            return;
+        }
+
+        // Find matching unit from food name
+        let matchedUnit = 'servings'; // default
+        let foundMatch = false;
+
+        for (const [keyword, unit] of Object.entries(foodUnitMapping)) {
+            if (foodName.includes(keyword)) {
+                matchedUnit = unit;
+                foundMatch = true;
+                break;
+            }
+        }
+
+        setQuantityUnit(matchedUnit);
+        setShowCustomUnit(!foundMatch && foodName.length > 2);
+    };
+
+    const handleUnitChange = (e) => {
+        const selectedUnit = e.target.value;
+        if (selectedUnit === 'custom') {
+            setShowCustomUnit(true);
+            setQuantityUnit('');
+        } else {
+            setQuantityUnit(selectedUnit);
+            setShowCustomUnit(false);
+        }
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -84,6 +159,9 @@ const AddFoods = () => {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
+        // Combine quantity and unit
+        const finalQuantity = `${data.quantity} ${showCustomUnit ? customUnit : quantityUnit}`;
+
         // Validate expiry date
         const today = new Date().toISOString().split('T')[0];
         if (data.expireDate < today) {
@@ -101,9 +179,10 @@ const AddFoods = () => {
             // Upload image first
             const imageUrl = await uploadImageToServer(imageFile);
 
-            // Prepare food data
+            // Prepare food data with combined quantity
             const foodData = {
                 ...data,
+                quantity: finalQuantity, // Use the combined quantity with unit
                 foodImage: imageUrl,
                 userEmail: user.email,
                 donorName: user.displayName,
@@ -195,16 +274,16 @@ const AddFoods = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Food Name</label>
                                             <div className="relative">
                                                 <input
                                                     type="text"
                                                     name="foodName"
-                                                    placeholder="e.g. Fresh Salad, Pasta"
+                                                    placeholder="e.g. Fresh Salad, Pasta, Rice, Milk"
                                                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                                     required
+                                                    onChange={handleFoodNameChange}
                                                 />
                                                 <IoFastFoodOutline className="absolute left-3 top-3 text-gray-400" />
                                             </div>
@@ -229,17 +308,47 @@ const AddFoods = () => {
                                             </div>
                                         </div>
 
-                                        <div className="space-y-1">
+                                        {/* Dynamic Quantity Field */}
+                                        <div className="space-y-2">
                                             <label className="block text-sm font-medium text-gray-700">Quantity</label>
-                                            <div className="relative">
-                                                <input
-                                                    type="number"
-                                                    name="quantity"
-                                                    placeholder="Number of servings"
-                                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                                    required
-                                                />
-                                                <IoPricetagOutline className="absolute left-3 top-3 text-gray-400" />
+                                            <div className="flex gap-2">
+                                                <div className="relative flex-1">
+                                                    <input
+                                                        type="number"
+                                                        name="quantity"
+                                                        placeholder="Amount"
+                                                        className="w-full pl-3 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                        required
+                                                        min="1"
+                                                        step="0.1"
+                                                    />
+                                                    <IoPricetagOutline className="absolute right-3 top-3 text-gray-400" />
+                                                </div>
+                                                <div className="w-32">
+                                                    {showCustomUnit ? (
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Unit"
+                                                            value={customUnit}
+                                                            onChange={(e) => setCustomUnit(e.target.value)}
+                                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                                            required
+                                                        />
+                                                    ) : (
+                                                        <select
+                                                            value={quantityUnit}
+                                                            onChange={handleUnitChange}
+                                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white"
+                                                        >
+                                                            {commonUnits.map(unit => (
+                                                                <option key={unit} value={unit}>
+                                                                    {unit}
+                                                                </option>
+                                                            ))}
+                                                            <option value="custom">Custom...</option>
+                                                        </select>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
 
@@ -297,10 +406,7 @@ const AddFoods = () => {
                                                 />
                                             </div>
                                         </div>
-
                                     </div>
-
-
 
                                     <div>
                                         {/* Image Upload Section */}
@@ -401,7 +507,6 @@ const AddFoods = () => {
                                             </motion.button>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
