@@ -13,6 +13,20 @@ import useAuth from '../../hooks/UseAuth';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+// Expiry warning utility
+const getExpiryStatus = (expireDate) => {
+  const today = new Date();
+  const expiry = new Date(expireDate);
+  const diffTime = expiry - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays < 0) return { status: 'expired', text: 'Expired', color: 'text-red-500', bgColor: 'bg-red-100' };
+  if (diffDays === 0) return { status: 'today', text: 'Expires today!', color: 'text-red-500', bgColor: 'bg-red-100' };
+  if (diffDays <= 2) return { status: 'urgent', text: `Expires in ${diffDays} day${diffDays > 1 ? 's' : ''}`, color: 'text-orange-500', bgColor: 'bg-orange-100' };
+  if (diffDays <= 5) return { status: 'warning', text: `Expires in ${diffDays} days`, color: 'text-yellow-500', bgColor: 'bg-yellow-100' };
+  return { status: 'fresh', text: `Expires in ${diffDays} days`, color: 'text-green-500', bgColor: 'bg-green-100' };
+};
+
 const FoodDetails = () => {
   const { user } = useAuth();
   const food = useLoaderData();
@@ -24,6 +38,8 @@ const FoodDetails = () => {
 
   const viewFrom = location.state?.from || 'food';
   const backTo = location.state?.back || '/availableFoods';
+
+  const expiryStatus = getExpiryStatus(food.expireDate);
 
   if (loading) {
     return (
@@ -55,7 +71,6 @@ const FoodDetails = () => {
             {/* Left column - Food image gallery */}
             <div className="lg:col-span-2 space-y-6">
               {/* Main food image */}
-
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <img
                   src={food.foodImage}
@@ -67,7 +82,13 @@ const FoodDetails = () => {
 
               {/* Food details card */}
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{food.foodName}</h2>
+                <div className="flex justify-between items-start mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900">{food.foodName}</h2>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${expiryStatus.bgColor} ${expiryStatus.color}`}>
+                    {expiryStatus.text}
+                  </span>
+                </div>
+                
                 <div className="flex items-center mb-6">
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${food.status === 'available'
                     ? 'bg-green-100 text-green-800'
@@ -87,7 +108,7 @@ const FoodDetails = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <FaCalendarAlt className="mt-1 mr-3 text-gray-500" />
+                    <FaCalendarAlt className="mt-1 mr-3 text-red-500" />
                     <div>
                       <p className="text-sm font-medium text-gray-500">Expiration Date</p>
                       <p className="text-gray-900">{food.expireDate}</p>
@@ -188,6 +209,13 @@ const FoodDetails = () => {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Request This Food</h3>
                 <p className="text-gray-600 mb-6">If you're interested in this donation, please contact the donor or submit a request.</p>
+
+                {/* Expiry Warning */}
+                {(expiryStatus.status === 'today' || expiryStatus.status === 'urgent') && (
+                  <div className={`mb-4 p-3 rounded-lg ${expiryStatus.bgColor} ${expiryStatus.color} text-sm font-medium`}>
+                    ⚠️ {expiryStatus.text} - Request soon!
+                  </div>
+                )}
 
                 <motion.button
                   whileHover={{ scale: 1.05 }}

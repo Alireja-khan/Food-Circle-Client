@@ -66,12 +66,26 @@ const AvailableFoodCards = ({ foods, loading }) => {
     }, [sortOption, foods?.length, searchResults?.length]);
 
     if (loading) {
-      return (
-        <div className="flex justify-center items-center h-64">
-          <span className="loading loading-bars loading-xl"></span>
-        </div>
-      );
+        return (
+            <div className="flex justify-center items-center h-64">
+                <span className="loading loading-bars loading-xl"></span>
+            </div>
+        );
     }
+
+    // Expiry warning utility
+    const getExpiryStatus = (expireDate) => {
+        const today = new Date();
+        const expiry = new Date(expireDate);
+        const diffTime = expiry - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays < 0) return { status: 'expired', text: 'Expired', color: 'text-red-500' };
+        if (diffDays === 0) return { status: 'today', text: 'Expires today!', color: 'text-red-500' };
+        if (diffDays <= 2) return { status: 'urgent', text: `Expires in ${diffDays} day${diffDays > 1 ? 's' : ''}`, color: 'text-orange-500' };
+        if (diffDays <= 5) return { status: 'warning', text: `Expires in ${diffDays} days`, color: 'text-yellow-500' };
+        return { status: 'fresh', text: `Expires in ${diffDays} days`, color: 'text-green-500' };
+    };
 
     return (
         <section className="max-w-screen-2xl min-h-screen mx-auto px-4 py-10">
@@ -175,6 +189,13 @@ const AvailableFoodCards = ({ foods, loading }) => {
                             <h3 className="text-2xl font-semibold text-gray-800 mb-2 truncate" title={food.foodName}>
                                 {food.foodName}
                             </h3>
+
+                            {/* Expiry Status Badge */}
+                            <div className="mb-2">
+                                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${getExpiryStatus(food.expireDate).color} bg-gray-100`}>
+                                    {getExpiryStatus(food.expireDate).text}
+                                </span>
+                            </div>
 
                             <div className="flex items-center gap-2 mb-1">
                                 <FaLocationDot className="text-green-600" />

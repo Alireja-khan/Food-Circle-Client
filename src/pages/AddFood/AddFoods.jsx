@@ -20,6 +20,17 @@ const AddFoods = () => {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
+        // Validate expiry date
+        const today = new Date().toISOString().split('T')[0];
+        if (data.expireDate < today) {
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Expiry Date",
+                text: "Expiry date cannot be in the past!",
+            });
+            return;
+        }
+
         data.userEmail = user.email;
         data.donorName = user.displayName;
         data.donorImage = user.photoURL;
