@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FaCalendarAlt, FaComments, FaMapMarkerAlt, FaPhone, FaUser } from 'react-icons/fa';
+import { FaCalendarAlt, FaComments, FaMapMarkerAlt, FaPhone, FaUser, FaEllipsisV } from 'react-icons/fa';
 import { FaBowlRice, FaTag } from 'react-icons/fa6';
 import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
@@ -19,7 +19,7 @@ const getExpiryStatus = (expireDate) => {
   const expiry = new Date(expireDate);
   const diffTime = expiry - today;
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
+
   if (diffDays < 0) return { status: 'expired', text: 'Expired', color: 'text-red-500', bgColor: 'bg-red-100' };
   if (diffDays === 0) return { status: 'today', text: 'Expires today!', color: 'text-red-500', bgColor: 'bg-red-100' };
   if (diffDays <= 2) return { status: 'urgent', text: `Expires in ${diffDays} day${diffDays > 1 ? 's' : ''}`, color: 'text-orange-500', bgColor: 'bg-orange-100' };
@@ -32,6 +32,7 @@ const FoodDetails = () => {
   const food = useLoaderData();
   const [showModal, setShowModal] = useState(false);
   const [selectedDonor, setSelectedDonor] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
   const { loading } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,6 +41,47 @@ const FoodDetails = () => {
   const backTo = location.state?.back || '/availableFoods';
 
   const expiryStatus = getExpiryStatus(food.expireDate);
+
+  const handleChatWithDonor = async () => {
+    if (user) {
+      try {
+        // Get donor's user ID from backend
+        const donorResponse = await axios.get(`http://localhost:5000/api/user/${food.donorEmail}`);
+        const donorUserId = donorResponse.data.userId;
+
+        // Create consistent room ID using both Firebase UIDs
+        const roomId = [user.uid, donorUserId].sort().join('_');
+
+        // Navigate directly to chat room
+        navigate(`/chat/${roomId}`, {
+          state: {
+            donorInfo: {
+              userId: donorUserId,
+              userName: food.donorName,
+              userEmail: food.donorEmail,
+              userImage: food.donorImage
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Error starting chat:', error);
+        // Fallback: use email as ID if user not found
+        const roomId = [user.uid, food.donorEmail].sort().join('_');
+        navigate(`/chat/${roomId}`, {
+          state: {
+            donorInfo: {
+              userId: food.donorEmail,
+              userName: food.donorName,
+              userEmail: food.donorEmail,
+              userImage: food.donorImage
+            }
+          }
+        });
+      }
+    } else {
+      navigate('/signIn');
+    }
+  };
 
   if (loading) {
     return (
@@ -51,7 +93,6 @@ const FoodDetails = () => {
 
   return (
     <div className="min-h-screen bg-green-50 py-12 px-4 sm:px-6 lg:px-8">
-
       <div className="max-w-7xl mx-auto">
         {/* Header with back button */}
         <div className="flex items-center mb-8">
@@ -82,23 +123,24 @@ const FoodDetails = () => {
 
               {/* Food details card */}
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start mb-6">
                   <h2 className="text-2xl font-bold text-gray-900">{food.foodName}</h2>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${expiryStatus.bgColor} ${expiryStatus.color}`}>
-                    {expiryStatus.text}
-                  </span>
-                </div>
-                
-                <div className="flex items-center mb-6">
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${food.status === 'available'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-red-100 text-red-800'
-                    }`}>
-                    {food.status}
-                  </span>
+                  <div className='flex gap-5'>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${expiryStatus.bgColor} ${expiryStatus.color}`}>
+                      {expiryStatus.text}
+                    </span>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${food.status === 'available'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
+                      }`}>
+                      {food.status}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
                   <div className="flex items-start">
                     <FaBowlRice className="mt-1 mr-3 text-amber-600" />
                     <div>
@@ -146,13 +188,62 @@ const FoodDetails = () => {
             {/* Right column - Donor information */}
             <div className="lg:col-span-1 space-y-6">
               {/* Donor profile card */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-xl shadow-lg p-6 relative">
+                {/* Three-dot dropdown menu */}
+                <div className="absolute top-4 right-4">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  >
+                    <FaEllipsisV className="w-4 h-4 text-gray-500" />
+                  </motion.button>
+
+                  {/* Dropdown menu */}
+                  <AnimatePresence>
+                    {showDropdown && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                        className="absolute right-0 top-10 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10"
+                      >
+                        <Link to={`/foods/${food._id}`} state={{ from: 'profile' }}>
+                          <button
+                            onClick={() => {
+                              setSelectedDonor(food);
+                              setShowDropdown(false);
+                            }}
+                            className="w-full px-4 py-3 text-left hover:bg-[#bee8b1]/60 flex items-center gap-3 transition-colors rounded-t-lg"
+                          >
+                            <FaUser className="w-4 h-4 text-gray-600" />
+                            <span>View Profile</span>
+                          </button>
+                        </Link>
+
+
+                        <button
+                          onClick={() => {
+                            handleChatWithDonor();
+                            setShowDropdown(false);
+                          }}
+                          className="w-full px-4 py-3 text-left hover:bg-[#bee8b1]/60 flex items-center gap-3 transition-colors rounded-b-lg"
+                        >
+                          <FaComments className="w-4 h-4 text-gray-600" />
+                          <span>Message</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 <div className="flex flex-col items-center mb-6">
                   <div className="bg-white rounded-xl mb-5 shadow-lg overflow-hidden">
                     <img
                       src={food.donorImage}
                       alt={food.donorName}
-                      className="w-50 h-50 object-cover object-top hover:opacity-90 transition-opacity"
+                      className="w-60 h-56 object-cover object-center hover:opacity-90 transition-opacity"
                     />
                   </div>
 
@@ -191,18 +282,6 @@ const FoodDetails = () => {
                     </div>
                   </div>
                 </div>
-
-                <div className="mt-6 pt-4 border-t border-gray-200">
-                  <Link to={`/foods/${food._id}`} state={{ from: 'profile' }}>
-                    <motion.button
-                      className="w-full bg-[#bee8b1] hover:bg-[#bee8b1] font-medium py-2 px-4 rounded-lg transition-colors"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      View Full Profile
-                    </motion.button>
-                  </Link>
-                </div>
               </div>
 
               {/* Action card */}
@@ -231,63 +310,6 @@ const FoodDetails = () => {
                 >
                   Request Now
                 </motion.button>
-
-                {/* Chat with Donor Card */}
-                <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Chat with Donor</h3>
-                  <p className="text-gray-600 mb-6">Have questions about this food? Chat directly with the donor.</p>
-
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={async () => {
-                      if (user) {
-                        try {
-                          // Get donor's user ID from backend
-                          const donorResponse = await axios.get(`http://localhost:5000/api/user/${food.donorEmail}`);
-                          const donorUserId = donorResponse.data.userId;
-
-                          // Create consistent room ID using both Firebase UIDs
-                          const roomId = [user.uid, donorUserId].sort().join('_');
-
-                          // Navigate directly to chat room
-                          navigate(`/chat/${roomId}`, {
-                            state: {
-                              donorInfo: {
-                                userId: donorUserId,
-                                userName: food.donorName,
-                                userEmail: food.donorEmail,
-                                userImage: food.donorImage
-                              }
-                            }
-                          });
-                        } catch (error) {
-                          console.error('Error starting chat:', error);
-                          // Fallback: use email as ID if user not found
-                          const roomId = [user.uid, food.donorEmail].sort().join('_');
-                          navigate(`/chat/${roomId}`, {
-                            state: {
-                              donorInfo: {
-                                userId: food.donorEmail,
-                                userName: food.donorName,
-                                userEmail: food.donorEmail,
-                                userImage: food.donorImage
-                              }
-                            }
-                          });
-                        }
-                      } else {
-                        navigate('/signIn');
-                      }
-                    }}
-                    className="w-full bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg hover:bg-blue-600 flex items-center justify-center gap-2"
-                  >
-                    <FaComments />
-                    Start Chat
-                  </motion.button>
-                </div>
-
-
               </div>
             </div>
           </div>
@@ -297,53 +319,6 @@ const FoodDetails = () => {
 
         {/* Modal for food request */}
         {showModal && <Modal setShowModal={setShowModal} food={food} />}
-
-        {/* Donor Profile Modal */}
-        {/* <AnimatePresence>
-          {selectedDonor && showFullDonorImage && (
-            <motion.div
-              className="fixed inset-0 bg-black/10 flex items-center justify-center z-50"
-              onClick={() => {
-                setShowFullDonorImage(false);
-                setSelectedDonor(null);
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div
-                layoutId="profile-photo"
-                className="w-80 bg-white rounded-b-2xl overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="w-full h-110 overflow-hidden">
-                  <motion.img
-                    src={selectedDonor.donorImage}
-                    alt="Expanded Donor"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-
-                <div className="p-5 text-center space-y-2">
-                  <p className="text-xl font-semibold text-gray-800">{selectedDonor.donorName}</p>
-                  <p className="text-sm text-gray-500">{selectedDonor.donorEmail}</p>
-                </div>
-
-                <div className="border-t-gray-900">
-                  <Link to={`/foods/${selectedDonor._id}`} state={{ from: 'profile' }}>
-                    <motion.button
-                      className="btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Show Profile
-                    </motion.button>
-                  </Link>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence> */}
       </div>
     </div>
   );
