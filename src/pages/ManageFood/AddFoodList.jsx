@@ -7,7 +7,7 @@ import { HiOutlineCreditCard } from "react-icons/hi2";
 
 const AddFoodList = ({ myAddFoodsPromise }) => {
     const foodsData = use(myAddFoodsPromise);
-    const [foods, setFoods] = useState(foodsData);  // put data in state for easy update
+    const [foods, setFoods] = useState(foodsData);
     const [activeFoodId, setActiveFoodId] = useState(null);
 
     const handleUpdate = (updatedFood) => {
@@ -29,11 +29,12 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
             reverseButtons: true,
         });
 
-
-
         if (result.isConfirmed) {
             try {
-                const res = await axios.delete(`http://localhost:5000/api/delete-food/${id}`);
+                console.log('🗑️ Attempting to delete food with ID:', id);
+                
+                // FIXED: Use the correct endpoint
+                const res = await axios.delete(`http://localhost:5000/api/foods/${id}`);
 
                 if (res.data.success) {
                     Swal.fire({
@@ -44,28 +45,23 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
                         showConfirmButton: false,
                     });
 
-                    // update foods state (remove deleted item)
+                    // Update foods state (remove deleted item)
                     setFoods(prevFoods => prevFoods.filter(food => food._id !== id));
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Failed to delete the food.',
-                    });
+                    throw new Error(res.data.error || 'Failed to delete');
                 }
             } catch (error) {
-                console.error(error);
+                console.error('❌ Delete error:', error);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while deleting.',
+                    title: 'Delete Failed',
+                    text: error.response?.data?.error || 'An error occurred while deleting.',
                 });
             }
         }
     };
 
     return (
-
         <div className="px-4 sm:px-6 lg:px-8 pt-10 pb-30 max-w-7xl mx-auto">
             {/* Title */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 text-center relative z-10">
@@ -101,16 +97,12 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: false, amount: 0.3 }}
             >
-                Review, update, or remove the food items you’ve added. Keep your shared meals current and available to those in need.
+                Review, update, or remove the food items you've added. Keep your shared meals current and available to those in need.
             </motion.p>
-
 
             {/* Table */}
             <div className="overflow-x-auto rounded-2xl bg-white ring-1 ring-gray-200">
-
                 <table className="min-w-full divide-y divide-gray-200 text-sm">
-
-
                     <thead className="bg-gray-50">
                         <tr className="text-gray-700 text-left">
                             {['Image', 'Name', 'Quantity', 'Pickup Location', 'Expire Date', 'Status', 'Actions'].map((header) => (
@@ -120,7 +112,6 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
                             ))}
                         </tr>
                     </thead>
-
 
                     <tbody className="divide-y divide-gray-100">
                         {foods.map((food) => {
@@ -182,11 +173,9 @@ const AddFoodList = ({ myAddFoodsPromise }) => {
                             );
                         })}
                     </tbody>
-
                 </table>
             </div>
         </div>
-
     );
 };
 

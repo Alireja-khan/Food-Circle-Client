@@ -3,12 +3,67 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { IoFastFood } from "react-icons/io5";
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const RequestsList = ({ requests, foods }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDonor, setSelectedDonor] = useState(null);
   const { loading } = useContext(AuthContext);
   const location = useLocation();
+
+  const handleCancelRequest = async (requestId, foodName) => {
+    const result = await Swal.fire({
+      title: 'Cancel Request?',
+      text: `Are you sure you want to cancel your request for ${foodName}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, cancel it!',
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.delete(`http://localhost:5000/api/requests/${requestId}`);
+        
+        if (response.data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Request Cancelled!',
+            text: 'Your food request has been cancelled.',
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          // Remove the request from the list
+          window.location.reload(); // Simple refresh to update the list
+        }
+      } catch (error) {
+        console.error('❌ Error cancelling request:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancellation Failed',
+          text: error.response?.data?.error || 'Failed to cancel request. Please try again.',
+        });
+      }
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Approved':
+        return { bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-200' };
+      case 'Pending':
+        return { bg: 'bg-yellow-100', text: 'text-yellow-700', border: 'border-yellow-200' };
+      case 'Rejected':
+        return { bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200' };
+      case 'Completed':
+        return { bg: 'bg-blue-100', text: 'text-blue-700', border: 'border-blue-200' };
+      default:
+        return { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' };
+    }
+  };
 
   if (loading) {
     return (
@@ -55,105 +110,129 @@ const RequestsList = ({ requests, foods }) => {
         transition={{ duration: 0.5 }}
         viewport={{ once: false, amount: 0.3 }}
       >
-        View the list of food donations you’ve requested. Track their status and make changes as needed to support your needs responsibly.
+        View the list of food donations you've requested. Track their status and make changes as needed to support your needs responsibly.
       </motion.p>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {requests.map((request) => {
-          const {
-            _id,
-            donorName,
-            foodName,
-            pickupLocation,
-            expireDate,
-            requestDate,
-            notes,
-            donorImage,
-            foodImage,
-            quantity,
-            status,
-            donorEmail,
-            userEmail,
-          } = request;
-
-          return (
-            <div
-              key={_id}
-              className="bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition flex flex-col"
+      {requests.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto">
+            <IoFastFood className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Requests Yet</h3>
+            <p className="text-gray-500 mb-6">You haven't made any food requests yet.</p>
+            <Link
+              to="/availableFoods"
+              className="inline-block bg-[#bee8b1] hover:bg-[#a8d897] text-gray-800 font-medium py-2 px-6 rounded-lg transition-colors"
             >
-              {/* Food Image */}
-              {foodImage && (
-                <img
-                  src={foodImage}
-                  alt={foodName}
-                  className="w-full h-48 object-cover"
-                />
-              )}
+              Browse Available Foods
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {requests.map((request) => {
+            const {
+              _id,
+              donorName,
+              foodName,
+              pickupLocation,
+              expireDate,
+              requestDate,
+              notes,
+              donorImage,
+              foodImage,
+              quantity,
+              status,
+              donorEmail,
+              userEmail,
+            } = request;
 
-              <div className="p-5 flex flex-col flex-grow">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-xl font-semibold text-green-700">{foodName}</h3>
-                  <span
-                    className={`text-sm font-medium px-3 py-1 rounded ${status === 'Pending'
-                      ? 'bg-yellow-100 text-yellow-700'
-                      : 'bg-blue-200 text-gray-800'
-                      }`}
-                  >
-                    {status}
-                  </span>
-                </div>
+            const statusColors = getStatusColor(status);
 
-                <div className="space-y-1 text-sm text-gray-700 mb-3">
-                  <p className="text-sm text-gray-500">
-                    <span className="font-medium">Requested By:</span> {userEmail}
-                  </p>
-                  <p>
-                    <span className="font-medium">Quantity:</span> {quantity}
-                  </p>
-                  <p>
-                    <span className="font-medium">Pickup Location:</span> {pickupLocation}
-                  </p>
-                  <p>
-                    <span className="font-medium">Expire Date:</span>{' '}
-                    {new Date(expireDate).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <span className="font-medium">Request Date:</span>{' '}
-                    {new Date(requestDate).toLocaleDateString()}
-                  </p>
-                </div>
-
-                <div
-                  onClick={() => {
-                    setSelectedDonor(request);
-                    setShowModal(true);
-                  }}
-                  className="flex items-center gap-3 mt-auto cursor-pointer"
-                >
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <img
-                      src={donorImage}
-                      alt={donorName}
-                      className="w-10 h-15 rounded object-cover border-2 border-gray-300"
-                    />
-                  </motion.div>
-
-                  <div className="min-h-[56px] flex flex-col justify-center overflow-hidden">
-                    <p className="text-base text-gray-600 truncate" title={donorName}>
-                      Donor Name : {donorName}
-                    </p>
-                    <p className="text-base text-gray-600 truncate" title={donorEmail}>
-                      Donor Email : {donorEmail}
-                    </p>
-                  </div>
-                </div>
-
-                {notes && (
-                  <div className="mt-4 bg-gray-100 p-3 rounded text-sm text-gray-600 italic">
-                    "{notes}"
-                  </div>
+            return (
+              <div
+                key={_id}
+                className="bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition flex flex-col"
+              >
+                {/* Food Image */}
+                {foodImage && (
+                  <img
+                    src={foodImage}
+                    alt={foodName}
+                    className="w-full h-48 object-cover"
+                  />
                 )}
 
+                <div className="p-5 flex flex-col flex-grow">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-xl font-semibold text-green-700">{foodName}</h3>
+                    <span
+                      className={`text-sm font-medium px-3 py-1 rounded border ${statusColors.bg} ${statusColors.text} ${statusColors.border}`}
+                    >
+                      {status}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-sm text-gray-700 mb-4">
+                    <p>
+                      <span className="font-medium">Quantity:</span> {quantity}
+                    </p>
+                    <p>
+                      <span className="font-medium">Pickup Location:</span> {pickupLocation}
+                    </p>
+                    <p>
+                      <span className="font-medium">Expire Date:</span>{' '}
+                      {new Date(expireDate).toLocaleDateString()}
+                    </p>
+                    <p>
+                      <span className="font-medium">Request Date:</span>{' '}
+                      {new Date(requestDate).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  {/* Donor Info */}
+                  <div
+                    onClick={() => {
+                      setSelectedDonor(request);
+                      setShowModal(true);
+                    }}
+                    className="flex items-center gap-3 mt-auto cursor-pointer mb-4"
+                  >
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <img
+                        src={donorImage}
+                        alt={donorName}
+                        className="w-10 h-10 rounded-full object-cover border-2 border-gray-300"
+                      />
+                    </motion.div>
+
+                    <div className="min-h-[40px] flex flex-col justify-center overflow-hidden">
+                      <p className="text-sm font-medium text-gray-600 truncate" title={donorName}>
+                        {donorName}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate" title={donorEmail}>
+                        {donorEmail}
+                      </p>
+                    </div>
+                  </div>
+
+                  {notes && (
+                    <div className="mt-2 bg-gray-100 p-3 rounded text-sm text-gray-600 italic">
+                      "{notes}"
+                    </div>
+                  )}
+
+                  {/* Cancel Button for Pending Requests */}
+                  {status === 'Pending' && (
+                    <button
+                      onClick={() => handleCancelRequest(_id, foodName)}
+                      className="mt-4 w-full py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+                    >
+                      Cancel Request
+                    </button>
+                  )}
+                </div>
+
+                {/* Donor Profile Modal */}
                 <AnimatePresence>
                   {showModal && selectedDonor && (
                     <motion.div
@@ -167,12 +246,11 @@ const RequestsList = ({ requests, foods }) => {
                       exit={{ opacity: 0 }}
                     >
                       <motion.div
-                        layoutId="profile-photo"
                         className="w-80 bg-white rounded-b-2xl overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {/* Donor Image */}
-                        <div className="w-full h-110 overflow-hidden">
+                        <div className="w-full h-64 overflow-hidden">
                           <motion.img
                             src={selectedDonor?.donorImage}
                             alt={selectedDonor?.donorName}
@@ -186,17 +264,17 @@ const RequestsList = ({ requests, foods }) => {
                           <p className="text-sm text-gray-500">{selectedDonor?.donorEmail}</p>
                         </div>
 
-                        <div className="border-t-gray-900">
+                        <div className="border-t border-gray-200">
                           <Link
-                            to={`/foods/${selectedDonor._id}`}
+                            to={`/foods/${selectedDonor.foodId}`}
                             state={{ from: 'profile', back: location.pathname }}
                           >
                             <motion.button
-                              className="btn h-full w-full py-2 bg-[#bee8b1]/20 hover:bg-[#bee8b1] mx-auto"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
+                              className="w-full py-3 bg-[#bee8b1] hover:bg-[#a8d897] text-gray-800 font-medium transition-colors"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
                             >
-                              Show Profile
+                              View Food Details
                             </motion.button>
                           </Link>
                         </div>
@@ -204,12 +282,11 @@ const RequestsList = ({ requests, foods }) => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

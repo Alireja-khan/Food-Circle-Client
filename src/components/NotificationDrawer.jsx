@@ -33,7 +33,7 @@ const NotificationDrawer = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[2000]"
+            className="fixed inset-0  bg-opacity-50 backdrop-blur-sm z-[2000]"
             onClick={closeDrawer}
           />
           
